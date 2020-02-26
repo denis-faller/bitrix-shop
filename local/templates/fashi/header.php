@@ -44,12 +44,12 @@
                     <?else:?>
                     <a href="/login" class="login-panel"><i class="fa fa-user"></i>Авторизация</a>
                     <?endif;?>
-                    <div class="top-social">
-                        <a href="#"><i class="ti-facebook"></i></a>
-                        <a href="#"><i class="ti-twitter-alt"></i></a>
-                        <a href="#"><i class="ti-linkedin"></i></a>
-                        <a href="#"><i class="ti-pinterest"></i></a>
-                    </div>
+                    <?$APPLICATION->IncludeComponent("bitrix:main.include","",Array(
+                        "AREA_FILE_SHOW" => "file", 
+                        "EDIT_TEMPLATE" => "standard.php",
+                        "PATH" => "/include/social_header.php"
+                    )
+                    );?>
                 </div>
             </div>
         </div>
@@ -58,19 +58,35 @@
                 <div class="row">
                     <div class="col-lg-2 col-md-2">
                         <div class="logo">
-                            <a href="./index.html">
+                            <a href="/">
                                 <img src="<?=SITE_TEMPLATE_PATH?>/img/logo.png" alt="">
                             </a>
                         </div>
                     </div>
                     <div class="col-lg-7 col-md-7">
-                        <div class="advanced-search">
-                            <button type="button" class="category-btn">All Categories</button>
-                            <div class="input-group">
-                                <input type="text" placeholder="What do you need?">
-                                <button type="button"><i class="ti-search"></i></button>
-                            </div>
-                        </div>
+                    <?$APPLICATION->IncludeComponent("bitrix:search.title","",Array(
+                            "SHOW_INPUT" => "Y",
+                            "INPUT_ID" => "title-search-input",
+                            "CONTAINER_ID" => "title-search",
+                            "PRICE_CODE" => array("BASE","RETAIL"),
+                            "PRICE_VAT_INCLUDE" => "Y",
+                            "PREVIEW_TRUNCATE_LEN" => "150",
+                            "SHOW_PREVIEW" => "Y",
+                            "PREVIEW_WIDTH" => "75",
+                            "PREVIEW_HEIGHT" => "75",
+                            "CONVERT_CURRENCY" => "Y",
+                            "CURRENCY_ID" => "RUB",
+                            "PAGE" => "#SITE_DIR#search/index.php",
+                            "NUM_CATEGORIES" => "3",
+                            "TOP_COUNT" => "10",
+                            "ORDER" => "date",
+                            "USE_LANGUAGE_GUESS" => "Y",
+                            "CHECK_DATES" => "Y",
+                            "SHOW_OTHERS" => "N",
+                            "CATEGORY_0_TITLE" => "Товары",
+                            "CATEGORY_0" => array("iblock_catalog"),
+                        )
+                    );?>
                     </div>
                     <div class="col-lg-3 text-right col-md-3">
                         <ul class="nav-right">
@@ -133,48 +149,32 @@
             </div>
         </div>
         <div class="nav-item">
-            <div class="container">
-                <div class="nav-depart">
-                    <div class="depart-btn">
-                        <i class="ti-menu"></i>
-                        <span>All departments</span>
-                        <ul class="depart-hover">
-                            <li class="active"><a href="#">Women’s Clothing</a></li>
-                            <li><a href="#">Men’s Clothing</a></li>
-                            <li><a href="#">Underwear</a></li>
-                            <li><a href="#">Kid's Clothing</a></li>
-                            <li><a href="#">Brand Fashion</a></li>
-                            <li><a href="#">Accessories/Shoes</a></li>
-                            <li><a href="#">Luxury Brands</a></li>
-                            <li><a href="#">Brand Outdoor Apparel</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <nav class="nav-menu mobile-menu">
-                    <ul>
-                        <li class="active"><a href="./index.html">Home</a></li>
-                        <li><a href="./shop.html">Shop</a></li>
-                        <li><a href="#">Collection</a>
-                            <ul class="dropdown">
-                                <li><a href="#">Men's</a></li>
-                                <li><a href="#">Women's</a></li>
-                                <li><a href="#">Kid's</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="./blog.html">Blog</a></li>
-                        <li><a href="./contact.html">Contact</a></li>
-                        <li><a href="#">Pages</a>
-                            <ul class="dropdown">
-                                <li><a href="./blog-details.html">Blog Details</a></li>
-                                <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                <li><a href="./check-out.html">Checkout</a></li>
-                                <li><a href="./faq.html">Faq</a></li>
-                                <li><a href="./register.html">Register</a></li>
-                                <li><a href="./login.html">Login</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
+            <div class="container container-menu">
+                <?$APPLICATION->IncludeComponent("bitrix:menu",".default",Array(
+                        "ROOT_MENU_TYPE" => "subsection", 
+                        "MAX_LEVEL" => "1", 
+                        "USE_EXT" => "Y",
+                        "DELAY" => "N",
+                        "ALLOW_MULTI_SELECT" => "Y",
+                        "MENU_CACHE_TYPE" => "N", 
+                        "MENU_CACHE_TIME" => "3600", 
+                        "MENU_CACHE_USE_GROUPS" => "Y", 
+                        "MENU_CACHE_GET_VARS" => "" 
+                    )
+                );?>
+                <?$APPLICATION->IncludeComponent("bitrix:menu","horizontal_multilevel",Array(
+                    "ROOT_MENU_TYPE" => "top", 
+                    "MAX_LEVEL" => "2", 
+                    "CHILD_MENU_TYPE" => "left", 
+                    "USE_EXT" => "Y",
+                    "DELAY" => "N",
+                    "ALLOW_MULTI_SELECT" => "Y",
+                    "MENU_CACHE_TYPE" => "N", 
+                    "MENU_CACHE_TIME" => "3600", 
+                    "MENU_CACHE_USE_GROUPS" => "Y", 
+                    "MENU_CACHE_GET_VARS" => "" 
+                )
+            );?>
                 <div id="mobile-menu-wrap"></div>
             </div>
         </div>

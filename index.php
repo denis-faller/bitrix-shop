@@ -2,44 +2,60 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Главная");
 ?>
-<!-- Hero Section Begin -->
-    <section class="hero-section">
-        <div class="hero-items owl-carousel">
-            <div class="single-hero-items set-bg" data-setbg="<?=SITE_TEMPLATE_PATH?>/img/hero-1.jpg">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-5">
-                            <span>Bag,kids</span>
-                            <h1>Black friday</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore</p>
-                            <a href="#" class="primary-btn">Shop Now</a>
-                        </div>
-                    </div>
-                    <div class="off-card">
-                        <h2>Sale <span>50%</span></h2>
-                    </div>
-                </div>
-            </div>
-            <div class="single-hero-items set-bg" data-setbg="<?=SITE_TEMPLATE_PATH?>/img/hero-2.jpg">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-5">
-                            <span>Bag,kids</span>
-                            <h1>Black friday</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore</p>
-                            <a href="#" class="primary-btn">Shop Now</a>
-                        </div>
-                    </div>
-                    <div class="off-card">
-                        <h2>Sale <span>50%</span></h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Hero Section End -->
+<?$APPLICATION->IncludeComponent("bitrix:news.list","slider",Array(
+        "DISPLAY_DATE" => "Y",
+        "DISPLAY_NAME" => "Y",
+        "DISPLAY_PICTURE" => "Y",
+        "DISPLAY_PREVIEW_TEXT" => "Y",
+        "AJAX_MODE" => "Y",
+        "IBLOCK_TYPE" => "services",
+        "IBLOCK_ID" => "4",
+        "NEWS_COUNT" => "20",
+        "SORT_BY1" => "SORT",
+        "SORT_ORDER1" => "ASC",
+        "SORT_BY2" => "ACTIVE_FROM",
+        "SORT_ORDER2" => "ASC",
+        "FILTER_NAME" => "",
+        "FIELD_CODE" => Array("ID"),
+        "PROPERTY_CODE" => Array("DESCRIPTION"),
+        "CHECK_DATES" => "Y",
+        "DETAIL_URL" => "",
+        "PREVIEW_TRUNCATE_LEN" => "",
+        "ACTIVE_DATE_FORMAT" => "d.m.Y",
+        "SET_TITLE" => "N",
+        "SET_BROWSER_TITLE" => "Y",
+        "SET_META_KEYWORDS" => "Y",
+        "SET_META_DESCRIPTION" => "Y",
+        "SET_LAST_MODIFIED" => "Y",
+        "INCLUDE_IBLOCK_INTO_CHAIN" => "Y",
+        "ADD_SECTIONS_CHAIN" => "Y",
+        "HIDE_LINK_WHEN_NO_DETAIL" => "Y",
+        "PARENT_SECTION" => "",
+        "PARENT_SECTION_CODE" => "",
+        "INCLUDE_SUBSECTIONS" => "Y",
+        "CACHE_TYPE" => "A",
+        "CACHE_TIME" => "3600",
+        "CACHE_FILTER" => "Y",
+        "CACHE_GROUPS" => "Y",
+        "DISPLAY_TOP_PAGER" => "Y",
+        "DISPLAY_BOTTOM_PAGER" => "Y",
+        "PAGER_SHOW_ALWAYS" => "Y",
+        "PAGER_TEMPLATE" => "",
+        "PAGER_DESC_NUMBERING" => "Y",
+        "PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
+        "PAGER_SHOW_ALL" => "Y",
+        "PAGER_BASE_LINK_ENABLE" => "Y",
+        "SET_STATUS_404" => "Y",
+        "SHOW_404" => "Y",
+        "MESSAGE_404" => "",
+        "PAGER_BASE_LINK" => "",
+        "PAGER_PARAMS_NAME" => "arrPager",
+        "AJAX_OPTION_JUMP" => "N",
+        "AJAX_OPTION_STYLE" => "Y",
+        "AJAX_OPTION_HISTORY" => "N",
+        "AJAX_OPTION_ADDITIONAL" => ""
+    )
+);?>
 
     <!-- Banner Section Begin -->
     <div class="banner-section spad">
