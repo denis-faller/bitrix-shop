@@ -172,14 +172,15 @@ $settings=new Richsite\Fashi\Settings;
             )
         );?>
                 <div class="col-lg-8 offset-lg-1">
-                    <div class="filter-control">
+                    <div class="filter-control filter-control-main1">
                         <ul>
-                            <li class="active">Обувь</li>
-                            <li>Платья</li>
-                            <li>Штаны</li>
-                            <li>Футболки</li>
+                            <li class="active" data-id ="1">Обувь</li>
+                            <li data-id ="7">Платья</li>
+                            <li data-id ="8">Штаны</li>
+                            <li data-id ="10">Футболки</li>
                         </ul>
                     </div>
+                    <div class="slider-main1">
                         <?
                         $GLOBALS['arrFilter'] = array("PROPERTY_SALELEADER" => $settings->getPropertySaleLeader());
                         ?>

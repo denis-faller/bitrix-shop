@@ -1,7 +1,12 @@
-<!DOCTYPE html>
+<?
+use Bitrix\Main\Page\Asset;
+?><!DOCTYPE html>
 <html lang="zxx">
 
 <head>
+    <?
+    Asset::getInstance()->addJs(SITE_TEMPLATE_PATH."/js/jquery-3.3.1.min.js");
+    ?>
     <?$APPLICATION->ShowHead();?>
     <meta charset="UTF-8">
     <meta name="description" content="Fashi Template">
@@ -23,6 +28,7 @@
     <link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/css/jquery-ui.min.css" type="text/css">
     <link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/css/style.css" type="text/css">
+    <script src="<?=SITE_TEMPLATE_PATH?>/js/jquery-3.3.1.min.js"></script>
 </head>
 <?$APPLICATION->ShowPanel()?>
 <body>

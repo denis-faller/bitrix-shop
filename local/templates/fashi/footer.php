@@ -108,7 +108,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
-    <script src="<?=SITE_TEMPLATE_PATH?>/js/jquery-3.3.1.min.js"></script>
     <script src="<?=SITE_TEMPLATE_PATH?>/js/bootstrap.min.js"></script>
     <script src="<?=SITE_TEMPLATE_PATH?>/js/jquery-ui.min.js"></script>
     <script src="<?=SITE_TEMPLATE_PATH?>/js/jquery.countdown.min.js"></script>
