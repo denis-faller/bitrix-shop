@@ -358,17 +358,19 @@
 	};
 })();
 $(document).ready(function(){
-    $('.filter-control-main1 li').on('click', function(){
-    $('.filter-control-main1 li').removeClass("active");
+    $('.filter-control-main li').on('click', function(){
+    $(this).parent().children('li').removeClass("active");
     $(this).removeClass("active");
     $(this).addClass("active");
+    let li = $(this);
     $.ajax({
         type: "POST",
         data: {id: $(this).attr('data-id')},
         url: "/ajax/ajax_slider.php",
         success: function(output){
-            $('.slider-main1').html(output);
-            $(".product-slider").owlCarousel({
+            let slider = li.parent().parent().next();
+            slider.html(output);
+            slider.children(".product-slider").owlCarousel({
             loop: true,
             margin: 25,
             nav: true,

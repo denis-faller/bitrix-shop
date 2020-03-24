@@ -36,7 +36,7 @@ class DealWeek extends \CBitrixComponent{
         $arPrice = CPrice::GetBasePrice($this->arResult["DEAL_WEEK"]["PROPERTY_PRODUCT_ID"]);
         $this->arResult["DEAL_WEEK"]["PRICE"] = CurrencyFormat($arPrice["PRICE"], $arPrice["CURRENCY"]);
         
-        $this->arResult["DEAL_WEEK"]["PROPERTY_DATE_END_SALE_VALUE"] = strtotime($this->arResult["DEAL_WEEK"]["PROPERTY_DATE_END_SALE_VALUE"]);
+        $this->arResult["DEAL_WEEK"]["TIME_LEFT"] = strtotime($this->arResult["DEAL_WEEK"]["PROPERTY_DATE_END_SALE_VALUE"])-strtotime(date("d-m-Y H:i:s"));
         
         if ($this->StartResultCache()){
             $this->IncludeComponentTemplate();
