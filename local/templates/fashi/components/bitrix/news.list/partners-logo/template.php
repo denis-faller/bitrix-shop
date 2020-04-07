@@ -13,20 +13,16 @@
 $this->setFrameMode(true);
 ?>
 
-<div class="benefit-items">
-    <div class="row">
-    <?foreach($arResult["ITEMS"] as $arItem):?>
-        <div class="col-lg-4">
-            <div class="single-benefit">
-                  <div class="sb-icon">
-                        <img src="<?=$arItem["PREVIEW_PICTURE"]["SRC"]?>" alt="">
+<div class="partner-logo">
+    <div class="container">
+            <div class="logo-carousel owl-carousel">
+                <?foreach($arResult["ITEMS"] as $arItem):?>
+                    <div class="logo-item">
+                        <div class="tablecell-inner">
+                            <img src="<?=$arItem["PREVIEW_PICTURE"]["SRC"]?>" alt="">
+                        </div>
                     </div>
-                    <div class="sb-text">
-                        <h6><?=$arItem["NAME"]?></h6>
-                        <p><?=$arItem["PREVIEW_TEXT"]?></p>
-                    </div>
+                <?endforeach;?>
             </div>
-        </div>
-    <?endforeach;?>
     </div>
 </div>

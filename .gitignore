@@ -27,7 +27,6 @@
 /bitrix/*
 # включаем папку components, но исключаем components/bitrix
 !/bitrix/components
-!/bitrix/backup
 !/bitrix/modules/richsite.fashi
 /bitrix/components/bitrix/
 # включаем папку php_interface и исключаем файл dbconn.php
