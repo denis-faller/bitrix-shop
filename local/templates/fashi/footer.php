@@ -21,7 +21,7 @@
         "PREVIEW_TRUNCATE_LEN" => "",
         "ACTIVE_DATE_FORMAT" => "d.m.Y",
         "SET_TITLE" => "N",
-        "SET_BROWSER_TITLE" => "Y",
+        "SET_BROWSER_TITLE" => "N",
         "SET_META_KEYWORDS" => "Y",
         "SET_META_DESCRIPTION" => "Y",
         "SET_LAST_MODIFIED" => "Y",
@@ -128,7 +128,7 @@
                         "AJAX_OPTION_HISTORY" => "Y",
                         "CACHE_TYPE" => "A",
                         "CACHE_TIME" => "3600",
-                        "SET_TITLE" => "Y"
+                        "SET_TITLE" => "N"
                     )
                 );?>
                 </div>

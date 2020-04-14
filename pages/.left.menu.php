@@ -27,6 +27,13 @@ $aMenuLinks = Array(
 		Array(), 
 		Array(), 
 		"" 
+	),
+	Array(
+		"Справка", 
+		"/faq/", 
+		Array(), 
+		Array(), 
+		"" 
 	)
 );
 ?>

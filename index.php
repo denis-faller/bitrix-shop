@@ -25,7 +25,7 @@ $settings=new Richsite\Fashi\Settings;
         "PREVIEW_TRUNCATE_LEN" => "",
         "ACTIVE_DATE_FORMAT" => "d.m.Y",
         "SET_TITLE" => "N",
-        "SET_BROWSER_TITLE" => "Y",
+        "SET_BROWSER_TITLE" => "N",
         "SET_META_KEYWORDS" => "Y",
         "SET_META_DESCRIPTION" => "Y",
         "SET_LAST_MODIFIED" => "Y",
@@ -79,7 +79,7 @@ $settings=new Richsite\Fashi\Settings;
         "PREVIEW_TRUNCATE_LEN" => "",
         "ACTIVE_DATE_FORMAT" => "d.m.Y",
         "SET_TITLE" => "N",
-        "SET_BROWSER_TITLE" => "Y",
+        "SET_BROWSER_TITLE" => "N",
         "SET_META_KEYWORDS" => "Y",
         "SET_META_DESCRIPTION" => "Y",
         "SET_LAST_MODIFIED" => "Y",
@@ -140,7 +140,7 @@ $settings=new Richsite\Fashi\Settings;
                 "PREVIEW_TRUNCATE_LEN" => "",
                 "ACTIVE_DATE_FORMAT" => "d.m.Y",
                 "SET_TITLE" => "N",
-                "SET_BROWSER_TITLE" => "Y",
+                "SET_BROWSER_TITLE" => "N",
                 "SET_META_KEYWORDS" => "Y",
                 "SET_META_DESCRIPTION" => "Y",
                 "SET_LAST_MODIFIED" => "Y",
@@ -283,7 +283,7 @@ $settings=new Richsite\Fashi\Settings;
                             "SECTION_URL" => "",
                             "SECTION_USER_FIELDS" => array("",""),
                             "SEF_MODE" => "N",
-                            "SET_BROWSER_TITLE" => "Y",
+                            "SET_BROWSER_TITLE" => "N",
                             "SET_LAST_MODIFIED" => "N",
                             "SET_META_DESCRIPTION" => "Y",
                             "SET_META_KEYWORDS" => "Y",
@@ -440,7 +440,7 @@ $settings=new Richsite\Fashi\Settings;
                             "SECTION_URL" => "",
                             "SECTION_USER_FIELDS" => array("",""),
                             "SEF_MODE" => "N",
-                            "SET_BROWSER_TITLE" => "Y",
+                            "SET_BROWSER_TITLE" => "N",
                             "SET_LAST_MODIFIED" => "N",
                             "SET_META_DESCRIPTION" => "Y",
                             "SET_META_KEYWORDS" => "Y",
@@ -489,7 +489,7 @@ $settings=new Richsite\Fashi\Settings;
                 "PREVIEW_TRUNCATE_LEN" => "",
                 "ACTIVE_DATE_FORMAT" => "d.m.Y",
                 "SET_TITLE" => "N",
-                "SET_BROWSER_TITLE" => "Y",
+                "SET_BROWSER_TITLE" => "N",
                 "SET_META_KEYWORDS" => "Y",
                 "SET_META_DESCRIPTION" => "Y",
                 "SET_LAST_MODIFIED" => "Y",
@@ -550,7 +550,7 @@ $settings=new Richsite\Fashi\Settings;
                 "PREVIEW_TRUNCATE_LEN" => "",
                 "ACTIVE_DATE_FORMAT" => "d.m.Y",
                 "SET_TITLE" => "N",
-                "SET_BROWSER_TITLE" => "Y",
+                "SET_BROWSER_TITLE" => "N",
                 "SET_META_KEYWORDS" => "Y",
                 "SET_META_DESCRIPTION" => "Y",
                 "SET_LAST_MODIFIED" => "Y",
@@ -596,69 +596,30 @@ $settings=new Richsite\Fashi\Settings;
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="single-latest-blog">
-                        <img src="<?=SITE_TEMPLATE_PATH?>/img/latest-1.jpg" alt="">
-                        <div class="latest-text">
-                            <div class="tag-list">
-                                <div class="tag-item">
-                                    <i class="fa fa-calendar-o"></i>
-                                    May 4,2019
-                                </div>
-                                <div class="tag-item">
-                                    <i class="fa fa-comment-o"></i>
-                                    5
-                                </div>
-                            </div>
-                            <a href="#">
-                                <h4>The Best Street Style From London Fashion Week</h4>
-                            </a>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single-latest-blog">
-                        <img src="<?=SITE_TEMPLATE_PATH?>/img/latest-2.jpg" alt="">
-                        <div class="latest-text">
-                            <div class="tag-list">
-                                <div class="tag-item">
-                                    <i class="fa fa-calendar-o"></i>
-                                    May 4,2019
-                                </div>
-                                <div class="tag-item">
-                                    <i class="fa fa-comment-o"></i>
-                                    5
-                                </div>
-                            </div>
-                            <a href="#">
-                                <h4>Vogue's Ultimate Guide To Autumn/Winter 2019 Shoes</h4>
-                            </a>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single-latest-blog">
-                        <img src="<?=SITE_TEMPLATE_PATH?>/img/latest-3.jpg" alt="">
-                        <div class="latest-text">
-                            <div class="tag-list">
-                                <div class="tag-item">
-                                    <i class="fa fa-calendar-o"></i>
-                                    May 4,2019
-                                </div>
-                                <div class="tag-item">
-                                    <i class="fa fa-comment-o"></i>
-                                    5
-                                </div>
-                            </div>
-                            <a href="#">
-                                <h4>How To Brighten Your Wardrobe With A Dash Of Lime</h4>
-                            </a>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                        </div>
-                    </div>
-                </div>
+                <?
+                    $APPLICATION->IncludeComponent("bitrix:blog.new_posts", "main-page", Array(
+                        "SEO_USER" => "Y",
+                        "MESSAGE_COUNT" => "3",
+                        "MESSAGE_LENGTH" => "100",
+                        "PREVIEW_WIDTH" => "371",
+                        "PREVIEW_HEIGHT" => "260",
+                        "DATE_TIME_FORMAT" => "d.m.Y H:i:s",
+                        "PATH_TO_BLOG" => "/blog/#blog#/",
+                        "PATH_TO_POST" => "/blog/#blog#/#post_id#/",
+                        "PATH_TO_USER" => "blog_user.php?page=user&user_id=#user_id#",
+                        "PATH_TO_GROUP_BLOG_POST" => "",
+                        "PATH_TO_SMILE" => "/bitrix/images/blog/smile/",
+                        "BLOG_VAR" => "blog",
+                        "POST_VAR" => "post_id",
+                        "USER_VAR" => "user_id",
+                        "PAGE_VAR" => "page",
+                        "CACHE_TYPE" => "A",
+                        "CACHE_TIME" => "86400",
+                        "GROUP_ID" => "",
+                        "BLOG_URL" => ""
+                    )
+                );
+            ?>
             </div>
             
              <?
@@ -683,7 +644,7 @@ $settings=new Richsite\Fashi\Settings;
                 "PREVIEW_TRUNCATE_LEN" => "",
                 "ACTIVE_DATE_FORMAT" => "d.m.Y",
                 "SET_TITLE" => "N",
-                "SET_BROWSER_TITLE" => "Y",
+                "SET_BROWSER_TITLE" => "N",
                 "SET_META_KEYWORDS" => "Y",
                 "SET_META_DESCRIPTION" => "Y",
                 "SET_LAST_MODIFIED" => "Y",

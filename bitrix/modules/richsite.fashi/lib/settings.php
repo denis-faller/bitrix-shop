@@ -7,12 +7,14 @@ class Settings{
     private $dealWeekElementID;
     private $bannerInTopCarousel;
     private $bannerInBottomCarousel;
+    private $adminID;
     
     function __construct (){
         $this->propertySaleLeader = 2;
         $this->dealWeekElementID = 324;
         $this->bannerInTopCarousel = 323;
         $this->bannerInBottomCarousel = 325;
+        $this->adminID = 1;
     }
 
     public function getPropertySaleLeader(){
@@ -26,6 +28,9 @@ class Settings{
     }
     public function getBannerInBottomCarousel(){
         return $this->bannerInBottomCarousel;
+    }
+    public function getAdminID(){
+        return $this->adminID;
     }
 }
 
