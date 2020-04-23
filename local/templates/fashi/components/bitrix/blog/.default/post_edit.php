@@ -28,6 +28,8 @@ $APPLICATION->IncludeComponent(
 	$component
 );
 
+$arParams["EDITOR_CODE_DEFAULT"] = "N";
+
 $componentPostEditParams = Array(
 	"BLOG_VAR"			=> $arResult["ALIASES"]["blog"],
 	"POST_VAR"			=> $arResult["ALIASES"]["post_id"],

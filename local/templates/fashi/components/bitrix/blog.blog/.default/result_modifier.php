@@ -13,10 +13,9 @@ while($arPosts = $dbPosts->Fetch()){
     $numPost++;
 }
 
-$numPage = ceil($numPost/$arParams["MESSAGE_PER_PAGE"]);
+$numPage = ceil($numPost/$arParams["MESSAGE_COUNT"]);
 
 $arResult["NUM_PAGE"] = $numPage;
-
 
 $request = Bitrix\Main\Application::getInstance()->getContext()->getRequest();
 $currentPage = $request->getQuery("PAGEN_1");
@@ -27,9 +26,9 @@ if($arResult["CURRENT_NUM_PAGE"] == NULL){
     $arResult["CURRENT_NUM_PAGE"] = 1;
 }
 
-if(count($arResult["POSTS"])>0)
+if(count($arResult["POST"])>0)
 {
-	foreach($arResult["POSTS"] as $ind => &$CurPost)
+	foreach($arResult["POST"] as $ind => &$CurPost)
 	{
                 $keysImgPost = array_keys($CurPost["IMAGES"]);
                 

@@ -5,27 +5,29 @@ if (!$this->__component->__parent || empty($this->__component->__parent->__name)
 	$GLOBALS['APPLICATION']->SetAdditionalCSS('/bitrix/components/bitrix/blog/templates/.default/themes/blue/style.css');
 endif;
 ?>
+               <div class="blog-tags">
+                            <h4>Product Tags</h4>
 <?
 if(!empty($arResult))
 {
 	if(!empty($arResult["CATEGORY"]))
 	{
 		?>
-		<noindex>
-		<h3 class="blog-sidebar-title"><?=GetMessage("BLOG_BLOG_TAG_CLOUD")?></h3>
-		<div class="blog-tags-cloud" <?=$arParams["WIDTH"]?>>
+                    <div class="tag-item">        
 			<?
 			foreach($arResult["CATEGORY"] as $arCategory)
 			{
 				if($arCategory["SELECTED"]=="Y")
 					echo "<b>";
-				?><a href="<?=$arCategory["urlToCategory"]?>" title="<?GetMessage("BLOG_BLOG_BLOGINFO_CAT_VIEW")?>" style="font-size: <?=$arCategory["FONT_SIZE"]?>px;" rel="nofollow"><?=$arCategory["NAME"]?></a> <?
+				?><a href="<?=$arCategory["urlToCategory"]?>" title="<?GetMessage("BLOG_BLOG_BLOGINFO_CAT_VIEW")?>" rel="nofollow"><?=$arCategory["NAME"]?></a> <?
 				if($arCategory["SELECTED"]=="Y")
 						echo "</b>";
 			}
-		?></div>
-		</noindex>
+		?>
+                    </div>
 		<?
 	}
 }
-?>	
+?>
+
+    </div>

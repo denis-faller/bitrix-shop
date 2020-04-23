@@ -1,0 +1,6 @@
+<?
+$arComponentParameters = array(
+   "PARAMETERS" => array(
+   )
+);
+?>

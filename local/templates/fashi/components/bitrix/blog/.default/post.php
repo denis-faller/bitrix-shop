@@ -1,6 +1,5 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 ?>
-<div class="body-blog">
 <?
 $APPLICATION->IncludeComponent(
 	"bitrix:blog.menu",
@@ -27,7 +26,13 @@ $APPLICATION->IncludeComponent(
 		),
 	$component
 );
-
+?>
+     <section class="blog-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="blog-details-inner">   
+<?
 $APPLICATION->IncludeComponent(
 		"bitrix:blog.post", 
 		"", 
@@ -163,4 +168,8 @@ $APPLICATION->IncludeComponent(
 		$component 
 	);
 ?>
-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
