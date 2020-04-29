@@ -1,11 +1,7 @@
 <?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 
 <?if (!empty($arResult)):?>
- <div class="nav-depart">
-                    <div class="depart-btn">
-                        <i class="ti-menu"></i>
-                        <span>Все товары</span>
-                        <ul class="depart-hover">
+<ul class="filter-catagories">
 
 <?
 foreach($arResult as $arItem):
@@ -16,7 +12,5 @@ foreach($arResult as $arItem):
 	
 <?endforeach?>
 
-                        </ul>
-                    </div>
-                </div>
+</ul>
 <?endif?>

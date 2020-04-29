@@ -79,36 +79,12 @@ $APPLICATION->IncludeComponent(
 		$component 
 	);
 	?>
-	<div align="right">
-		<?
-		$APPLICATION->IncludeComponent(
-				"bitrix:blog.rss.link",
-				"group",
-				Array(
-						"RSS1"				=> "N",
-						"RSS2"				=> "Y",
-						"ATOM"				=> "N",
-						"BLOG_VAR"			=> $arResult["ALIASES"]["blog"],
-						"POST_VAR"			=> $arResult["ALIASES"]["post_id"],
-						"GROUP_VAR"			=> $arResult["ALIASES"]["group_id"],
-						"PATH_TO_POST_RSS"		=> $arResult["PATH_TO_POST_RSS"],
-						"PATH_TO_RSS_ALL"	=> $arResult["PATH_TO_RSS_ALL"],
-						"BLOG_URL"			=> $arResult["VARIABLES"]["blog"],
-						"POST_ID"			=> $arResult["VARIABLES"]["post_id"],
-						"MODE"				=> "C",
-						"PARAM_GROUP_ID" 			=> $arParams["GROUP_ID"],
-						"ALLOW_POST_CODE" => $arParams["ALLOW_POST_CODE"],
-					),
-				$component 
-			);
-		?>
-	</div>
 	<?
 
 	$componentCommentName = "bitrix:blog.post.comment";
 	if(isset($arParams["COMMENTS_LIST_VIEW"]) && $arParams["COMMENTS_LIST_VIEW"] == "Y")
 		$componentCommentName = 'bitrix:blog.post.comment.list';
-	
+        
 	$componentCommentParams = array(
 		"BLOG_VAR"		=> $arResult["ALIASES"]["blog"],
 		"USER_VAR"		=> $arResult["ALIASES"]["user_id"],

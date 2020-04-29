@@ -14,10 +14,10 @@ foreach($arResult as $arItem):?>
 	<?endif?>
 
 	<?if ($arItem["IS_PARENT"]):?>
-        <li class="<?if ($arItem["SELECTED"]):?>active<?endif?>"><a><?=$arItem["TEXT"]?></a>
+        <li><a><?=$arItem["TEXT"]?></a>
                  <ul class="dropdown">
 	<?else:?>       
-            <li><a href="<?=$arItem["LINK"]?>"><?=$arItem["TEXT"]?></a></li>
+            <li class="<?if ($arItem["SELECTED"]):?>active<?endif?>"><a href="<?=$arItem["LINK"]?>"><?=$arItem["TEXT"]?></a></li>
 	<?endif?>
 
 	<?$previousLevel = $arItem["DEPTH_LEVEL"];?>
