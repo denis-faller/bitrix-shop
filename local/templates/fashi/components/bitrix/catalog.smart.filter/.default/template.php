@@ -48,123 +48,17 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 			<input type="hidden" name="<?echo $arItem["CONTROL_NAME"]?>" id="<?echo $arItem["CONTROL_ID"]?>" value="<?echo $arItem["HTML_VALUE"]?>" />
 			<?endforeach;?>
 			<div class="row">
-				<?foreach($arResult["ITEMS"] as $key=>$arItem)//prices
-				{
-					$key = $arItem["ENCODED_ID"];
-					if(isset($arItem["PRICE"])):
-						if ($arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"] <= 0)
-							continue;
-
-						$step_num = 4;
-						$step = ($arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"]) / $step_num;
-						$prices = array();
-						if (Bitrix\Main\Loader::includeModule("currency"))
-						{
-							for ($i = 0; $i < $step_num; $i++)
-							{
-								$prices[$i] = CCurrencyLang::CurrencyFormat($arItem["VALUES"]["MIN"]["VALUE"] + $step*$i, $arItem["VALUES"]["MIN"]["CURRENCY"], false);
-							}
-							$prices[$step_num] = CCurrencyLang::CurrencyFormat($arItem["VALUES"]["MAX"]["VALUE"], $arItem["VALUES"]["MAX"]["CURRENCY"], false);
-						}
-						else
-						{
-							$precision = $arItem["DECIMALS"]? $arItem["DECIMALS"]: 0;
-							for ($i = 0; $i < $step_num; $i++)
-							{
-								$prices[$i] = number_format($arItem["VALUES"]["MIN"]["VALUE"] + $step*$i, $precision, ".", "");
-							}
-							$prices[$step_num] = number_format($arItem["VALUES"]["MAX"]["VALUE"], $precision, ".", "");
-						}
-						?>
-						<div class="<?if ($arParams["FILTER_VIEW_MODE"] == "HORIZONTAL"):?>col-sm-6 col-md-4<?else:?>col-lg-12<?endif?> bx-filter-parameters-box bx-active">
-							<span class="bx-filter-container-modef"></span>
-							<div class="bx-filter-parameters-box-title" onclick="smartFilter.hideFilterProps(this)"><span><?=$arItem["NAME"]?> <i data-role="prop_angle" class="fa fa-angle-<?if ($arItem["DISPLAY_EXPANDED"]== "Y"):?>up<?else:?>down<?endif?>"></i></span></div>
-							<div class="bx-filter-block" data-role="bx_filter_block">
-								<div class="row bx-filter-parameters-box-container">
-									<div class="col-xs-6 bx-filter-parameters-box-container-block bx-left">
-										<i class="bx-ft-sub"><?=GetMessage("CT_BCSF_FILTER_FROM")?></i>
-										<div class="bx-filter-input-container">
-											<input
-												class="min-price"
-												type="text"
-												name="<?echo $arItem["VALUES"]["MIN"]["CONTROL_NAME"]?>"
-												id="<?echo $arItem["VALUES"]["MIN"]["CONTROL_ID"]?>"
-												value="<?echo $arItem["VALUES"]["MIN"]["HTML_VALUE"]?>"
-												size="5"
-												onkeyup="smartFilter.keyup(this)"
-											/>
-										</div>
-									</div>
-									<div class="col-xs-6 bx-filter-parameters-box-container-block bx-right">
-										<i class="bx-ft-sub"><?=GetMessage("CT_BCSF_FILTER_TO")?></i>
-										<div class="bx-filter-input-container">
-											<input
-												class="max-price"
-												type="text"
-												name="<?echo $arItem["VALUES"]["MAX"]["CONTROL_NAME"]?>"
-												id="<?echo $arItem["VALUES"]["MAX"]["CONTROL_ID"]?>"
-												value="<?echo $arItem["VALUES"]["MAX"]["HTML_VALUE"]?>"
-												size="5"
-												onkeyup="smartFilter.keyup(this)"
-											/>
-										</div>
-									</div>
-
-									<div class="col-xs-10 col-xs-offset-1 bx-ui-slider-track-container">
-										<div class="bx-ui-slider-track" id="drag_track_<?=$key?>">
-											<?for($i = 0; $i <= $step_num; $i++):?>
-											<div class="bx-ui-slider-part p<?=$i+1?>"><span><?=$prices[$i]?></span></div>
-											<?endfor;?>
-
-											<div class="bx-ui-slider-pricebar-vd" style="left: 0;right: 0;" id="colorUnavailableActive_<?=$key?>"></div>
-											<div class="bx-ui-slider-pricebar-vn" style="left: 0;right: 0;" id="colorAvailableInactive_<?=$key?>"></div>
-											<div class="bx-ui-slider-pricebar-v"  style="left: 0;right: 0;" id="colorAvailableActive_<?=$key?>"></div>
-											<div class="bx-ui-slider-range" id="drag_tracker_<?=$key?>"  style="left: 0%; right: 0%;">
-												<a class="bx-ui-slider-handle left"  style="left:0;" href="javascript:void(0)" id="left_slider_<?=$key?>"></a>
-												<a class="bx-ui-slider-handle right" style="right:0;" href="javascript:void(0)" id="right_slider_<?=$key?>"></a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<?
-						$arJsParams = array(
-							"leftSlider" => 'left_slider_'.$key,
-							"rightSlider" => 'right_slider_'.$key,
-							"tracker" => "drag_tracker_".$key,
-							"trackerWrap" => "drag_track_".$key,
-							"minInputId" => $arItem["VALUES"]["MIN"]["CONTROL_ID"],
-							"maxInputId" => $arItem["VALUES"]["MAX"]["CONTROL_ID"],
-							"minPrice" => $arItem["VALUES"]["MIN"]["VALUE"],
-							"maxPrice" => $arItem["VALUES"]["MAX"]["VALUE"],
-							"curMinPrice" => $arItem["VALUES"]["MIN"]["HTML_VALUE"],
-							"curMaxPrice" => $arItem["VALUES"]["MAX"]["HTML_VALUE"],
-							"fltMinPrice" => intval($arItem["VALUES"]["MIN"]["FILTERED_VALUE"]) ? $arItem["VALUES"]["MIN"]["FILTERED_VALUE"] : $arItem["VALUES"]["MIN"]["VALUE"] ,
-							"fltMaxPrice" => intval($arItem["VALUES"]["MAX"]["FILTERED_VALUE"]) ? $arItem["VALUES"]["MAX"]["FILTERED_VALUE"] : $arItem["VALUES"]["MAX"]["VALUE"],
-							"precision" => $precision,
-							"colorUnavailableActive" => 'colorUnavailableActive_'.$key,
-							"colorAvailableActive" => 'colorAvailableActive_'.$key,
-							"colorAvailableInactive" => 'colorAvailableInactive_'.$key,
-						);
-						?>
-						<script type="text/javascript">
-							BX.ready(function(){
-								window['trackBar<?=$key?>'] = new BX.Iblock.SmartFilter(<?=CUtil::PhpToJSObject($arJsParams)?>);
-							});
-						</script>
-					<?endif;
-				}
-
+				<?
 				//not prices
 				foreach($arResult["ITEMS"] as $key=>$arItem)
 				{
+                                    /*
 					if(
 						empty($arItem["VALUES"])
 						|| isset($arItem["PRICE"])
 					)
 						continue;
-
+                                    */
 					if (
 						$arItem["DISPLAY_TYPE"] == "A"
 						&& (
@@ -173,8 +67,228 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 					)
 						continue;
 					?>
-					<div class="<?if ($arParams["FILTER_VIEW_MODE"] == "HORIZONTAL"):?>col-sm-6 col-md-4<?else:?>col-lg-12<?endif?> bx-filter-parameters-box <?if ($arItem["DISPLAY_EXPANDED"]== "Y"):?>bx-active<?endif?>">
-						<span class="bx-filter-container-modef"></span>
+					<div class="<?if ($arParams["FILTER_VIEW_MODE"] == "HORIZONTAL"):?>col-sm-6 col-md-4<?endif?> bx-filter-parameters-box <?if ($arItem["DISPLAY_EXPANDED"]== "Y"):?>bx-active<?endif?>">
+						<?
+                                                        if($arItem["ID"] == 5):
+                                                            ?>
+                                                            <div style = "padding-left: 0px;">
+                                                                <div class="bx-filter-param-btn-inline">
+                                                                <div class="filter-widget">
+                                                                <h4 class="fw-title">Brand</h4>
+                                                                    <div class="fw-brand-check">
+                                                                            <?foreach ($arItem["VALUES"] as $val => $ar):?>
+                                                                                <div class="bc-item">                                                                                   
+                                                                                    <?
+                                                                                    $class = "";
+                                                                                    if ($ar["CHECKED"])
+                                                                                            $class.= " bx-active";
+                                                                                    if ($ar["DISABLED"])
+                                                                                            $class.= " disabled";
+                                                                                    ?>
+                                                                                    <label for="<?=$ar["CONTROL_ID"]?>" data-role="label_<?=$ar["CONTROL_ID"]?>" class="bx-filter-param-label <?=$class?>" onclick="smartFilter.keyup(BX('<?=CUtil::JSEscape($ar["CONTROL_ID"])?>')); BX.toggleClass(this, 'bx-active');">
+                                                                                        <?=$ar["VALUE"]?>
+                                                                                            <input
+                                                                                            style="display: block"
+                                                                                            type="checkbox"
+                                                                                            name="<?=$ar["CONTROL_NAME"]?>"
+                                                                                            id="<?=$ar["CONTROL_ID"]?>"
+                                                                                            value="<?=$ar["HTML_VALUE"]?>"
+                                                                                            <? echo $ar["CHECKED"]? 'checked="checked"': '' ?>
+                                                                                        />
+                                                                                        <span class="checkmark"></span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            <?endforeach?>
+                                                                            </div>
+                                                                    </div>
+                                                            </div>
+                                                         </div>
+                                                                <?
+                                                        endif;
+                                                        ?>
+                                            
+                                            
+                                            
+                                                <?
+                                                    $key = $arItem["ENCODED_ID"];
+                                                    if(isset($arItem["PRICE"])):
+                                                            if ($arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"] <= 0)
+                                                                    continue;
+
+                                                            $step_num = 4;
+                                                            $step = ($arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"]) / $step_num;
+                                                            $prices = array();
+                                                            if (Bitrix\Main\Loader::includeModule("currency"))
+                                                            {
+                                                                    for ($i = 0; $i < $step_num; $i++)
+                                                                    {
+                                                                            $prices[$i] = CCurrencyLang::CurrencyFormat($arItem["VALUES"]["MIN"]["VALUE"] + $step*$i, $arItem["VALUES"]["MIN"]["CURRENCY"], false);
+                                                                    }
+                                                                    $prices[$step_num] = CCurrencyLang::CurrencyFormat($arItem["VALUES"]["MAX"]["VALUE"], $arItem["VALUES"]["MAX"]["CURRENCY"], false);
+                                                            }
+                                                            else
+                                                            {
+                                                                    $precision = $arItem["DECIMALS"]? $arItem["DECIMALS"]: 0;
+                                                                    for ($i = 0; $i < $step_num; $i++)
+                                                                    {
+                                                                            $prices[$i] = number_format($arItem["VALUES"]["MIN"]["VALUE"] + $step*$i, $precision, ".", "");
+                                                                    }
+                                                                    $prices[$step_num] = number_format($arItem["VALUES"]["MAX"]["VALUE"], $precision, ".", "");
+                                                            }
+                                                            ?>
+                                                            <div class="filter-widget">
+                                                                <h4 class="fw-title">Price</h4>
+                                                                <div class="filter-range-wrap">
+                                                                    <div class="range-slider">
+                                                                        <div class="price-input">
+                                                                           <input
+                                                                            class="min-price"
+                                                                            type="text"
+                                                                            name="<?echo $arItem["VALUES"]["MIN"]["CONTROL_NAME"]?>"
+                                                                            id="<?echo $arItem["VALUES"]["MIN"]["CONTROL_ID"]?>"
+                                                                            value="<?echo $arItem["VALUES"]["MIN"]["HTML_VALUE"]?>"
+                                                                            onkeyup="smartFilter.keyup(this)"
+                                                                            id="minamount">
+                                                                            <input
+                                                                           class="max-price"
+                                                                            type="text"
+                                                                            name="<?echo $arItem["VALUES"]["MAX"]["CONTROL_NAME"]?>"
+                                                                            id="<?echo $arItem["VALUES"]["MAX"]["CONTROL_ID"]?>"
+                                                                            value="<?echo $arItem["VALUES"]["MAX"]["HTML_VALUE"]?>"
+                                                                            onkeyup="smartFilter.keyup(this)"   
+                                                                            id="maxamount">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                                                         data-min="<?=$arItem["VALUES"]["MIN"]["VALUE"]?>" data-max="<?=$arItem["VALUES"]["MAX"]["VALUE"]?>" id="drag_track_<?=$key?>">
+                                                                        <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                                                                        <span id="left_slider_<?=$key?>" tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                                                        <span id="right_slider_<?=$key?>" tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                            
+                                                            <div style = "display:none;" class="<?if ($arParams["FILTER_VIEW_MODE"] == "HORIZONTAL"):?>col-sm-6 col-md-4<?else:?>col-lg-12<?endif?> bx-filter-parameters-box bx-active">
+                                                                    <span class="bx-filter-container-modef"></span>
+                                                                    <div class="bx-filter-parameters-box-title" onclick="smartFilter.hideFilterProps(this)"><span><?=$arItem["NAME"]?> <i data-role="prop_angle" class="fa fa-angle-<?if ($arItem["DISPLAY_EXPANDED"]== "Y"):?>up<?else:?>down<?endif?>"></i></span></div>
+                                                                    <div class="bx-filter-block" data-role="bx_filter_block">
+                                                                            <div class="row bx-filter-parameters-box-container">
+                                                                                    <div class="col-xs-6 bx-filter-parameters-box-container-block bx-left">
+                                                                                            <i class="bx-ft-sub"><?=GetMessage("CT_BCSF_FILTER_FROM")?></i>
+                                                                                            <div class="bx-filter-input-container">
+                                                                                                    <input
+                                                                                                            class="min-price"
+                                                                                                            type="text"
+                                                                                                            id="<?echo $arItem["VALUES"]["MIN"]["CONTROL_ID"]?>"
+                                                                                                            value="<?echo $arItem["VALUES"]["MIN"]["HTML_VALUE"]?>"
+                                                                                                            size="5"
+                                                                                                            onkeyup="smartFilter.keyup(this)"
+                                                                                                    />
+                                                                                            </div>
+                                                                                    </div>
+                                                                                    <div class="col-xs-6 bx-filter-parameters-box-container-block bx-right">
+                                                                                            <i class="bx-ft-sub"><?=GetMessage("CT_BCSF_FILTER_TO")?></i>
+                                                                                            <div class="bx-filter-input-container">
+                                                                                                    <input
+                                                                                                            class="max-price"
+                                                                                                            type="text"
+                                                                                                            id="<?echo $arItem["VALUES"]["MAX"]["CONTROL_ID"]?>"
+                                                                                                            value="<?echo $arItem["VALUES"]["MAX"]["HTML_VALUE"]?>"
+                                                                                                            size="5"
+                                                                                                            onkeyup="smartFilter.keyup(this)"
+                                                                                                    />
+                                                                                            </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-xs-10 col-xs-offset-1 bx-ui-slider-track-container">
+                                                                                            <div class="bx-ui-slider-track" id="drag_track_<?=$key?>">
+                                                                                                    <?for($i = 0; $i <= $step_num; $i++):?>
+                                                                                                    <div class="bx-ui-slider-part p<?=$i+1?>"><span><?=$prices[$i]?></span></div>
+                                                                                                    <?endfor;?>
+
+                                                                                                    <div class="bx-ui-slider-pricebar-vd" style="left: 0;right: 0;" id="colorUnavailableActive_<?=$key?>"></div>
+                                                                                                    <div class="bx-ui-slider-pricebar-vn" style="left: 0;right: 0;" id="colorAvailableInactive_<?=$key?>"></div>
+                                                                                                    <div class="bx-ui-slider-pricebar-v"  style="left: 0;right: 0;" id="colorAvailableActive_<?=$key?>"></div>
+                                                                                                    <div class="bx-ui-slider-range" id="drag_tracker_<?=$key?>"  style="left: 0%; right: 0%;">
+                                                                                                            <a class="bx-ui-slider-handle left"  style="left:0;" href="javascript:void(0)" id="left_slider_<?=$key?>"></a>
+                                                                                                            <a class="bx-ui-slider-handle right" style="right:0;" href="javascript:void(0)" id="right_slider_<?=$key?>"></a>
+                                                                                                    </div>
+                                                                                            </div>
+                                                                                    </div>
+                                                                            </div>
+                                                                    </div>
+                                                            </div>
+                                                            <?
+                                                            $arJsParams = array(
+                                                                    "leftSlider" => 'left_slider_'.$key,
+                                                                    "rightSlider" => 'right_slider_'.$key,
+                                                                    "tracker" => "drag_tracker_".$key,
+                                                                    "trackerWrap" => "drag_track_".$key,
+                                                                    "minInputId" => $arItem["VALUES"]["MIN"]["CONTROL_ID"],
+                                                                    "maxInputId" => $arItem["VALUES"]["MAX"]["CONTROL_ID"],
+                                                                    "minPrice" => $arItem["VALUES"]["MIN"]["VALUE"],
+                                                                    "maxPrice" => $arItem["VALUES"]["MAX"]["VALUE"],
+                                                                    "curMinPrice" => $arItem["VALUES"]["MIN"]["HTML_VALUE"],
+                                                                    "curMaxPrice" => $arItem["VALUES"]["MAX"]["HTML_VALUE"],
+                                                                    "fltMinPrice" => intval($arItem["VALUES"]["MIN"]["FILTERED_VALUE"]) ? $arItem["VALUES"]["MIN"]["FILTERED_VALUE"] : $arItem["VALUES"]["MIN"]["VALUE"] ,
+                                                                    "fltMaxPrice" => intval($arItem["VALUES"]["MAX"]["FILTERED_VALUE"]) ? $arItem["VALUES"]["MAX"]["FILTERED_VALUE"] : $arItem["VALUES"]["MAX"]["VALUE"],
+                                                                    "precision" => $precision,
+                                                                    "colorUnavailableActive" => 'colorUnavailableActive_'.$key,
+                                                                    "colorAvailableActive" => 'colorAvailableActive_'.$key,
+                                                                    "colorAvailableInactive" => 'colorAvailableInactive_'.$key,
+                                                            );
+                                                            ?>
+                                                            <script type="text/javascript">
+                                                                    BX.ready(function(){
+                                                                            window['trackBar<?=$key?>'] = new BX.Iblock.SmartFilter(<?=CUtil::PhpToJSObject($arJsParams)?>);
+                                                                    });
+                                                            </script>
+                                                    <?endif;
+                                            ?>
+                                            
+                                            
+                                            
+                                            <?
+                                            if($arItem["ID"] == 21):?>
+                                                <div class="filter-widget">
+                                                    <h4 class="fw-title">Color</h4>
+                                                    <div class="fw-color-choose">
+                                                        
+                                                            
+                                                          <?foreach ($arItem["VALUES"] as $val => $ar):?>
+                                                             <div class="cs-item">
+                                                                <input
+                                                                        style="display: none"
+                                                                        type="radio"
+                                                                        name="<?=$ar["CONTROL_NAME"]?>"
+                                                                        id="<?=$ar["CONTROL_ID"]?>"
+                                                                        value="<?=$ar["HTML_VALUE"]?>"
+                                                                        <? echo $ar["CHECKED"]? 'checked="checked"': '' ?>
+                                                                />
+                                                                <?
+                                                                $class = "";
+                                                                if ($ar["CHECKED"])
+                                                                        $class.= " bx-active";
+                                                                if ($ar["DISABLED"])
+                                                                        $class.= " disabled";
+                                                                ?>
+                                                                <label for="<?=$ar["CONTROL_ID"]?>" data-role="label_<?=$ar["CONTROL_ID"]?>" class="bx-filter-param-label <?=$class?>" onclick="smartFilter.keyup(BX('<?=CUtil::JSEscape($ar["CONTROL_ID"])?>')); BX.toggleClass(this, 'bx-active');">
+                                                                        <span class="bx-filter-btn-color-icon" style="background-image:url('<?=$ar["FILE"]["SRC"]?>');"></span>
+                                                                        <?=$ar["VALUE"]?>
+                                                                </label>  
+                                                        </div>
+                                                        <?endforeach?>
+                                                    </div>
+                                                </div>
+                                            <?
+                                                endif;
+                                            ?>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <span class="bx-filter-container-modef"></span>
 						<div class="bx-filter-parameters-box-title" onclick="smartFilter.hideFilterProps(this)">
 							<span class="bx-filter-parameters-box-hint"><?=$arItem["NAME"]?>
 								<?if ($arItem["FILTER_HINT"] <> ""):?>
@@ -319,7 +433,8 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 									break;
 								case "G"://CHECKBOXES_WITH_PICTURES
 									?>
-									<div class="col-xs-12">
+                                                                        <!--
+                                                                        <div class="col-xs-12">
 										<div class="bx-filter-param-btn-inline">
 										<?foreach ($arItem["VALUES"] as $val => $ar):?>
 											<input
@@ -347,6 +462,7 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 										<?endforeach?>
 										</div>
 									</div>
+                                                                        -->
 									<?
 									break;
 								case "H"://CHECKBOXES_WITH_PICTURES_AND_LABELS
