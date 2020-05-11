@@ -35,45 +35,15 @@ else
             <div class="row">
 	<? if ($isFilter || $isSidebar): ?>
 		<div class="col-lg-3 col-md-6 col-sm-8 order-2 order-lg-1 produts-sidebar-filter">
-                    <div class="filter-widget">
-                        <h4 class="fw-title">Size</h4>
-                        <div class="fw-size-choose">
-                            <div class="sc-item">
-                                <input type="radio" id="s-size">
-                                <label for="s-size">s</label>
-                            </div>
-                            <div class="sc-item">
-                                <input type="radio" id="m-size">
-                                <label for="m-size">m</label>
-                            </div>
-                            <div class="sc-item">
-                                <input type="radio" id="l-size">
-                                <label for="l-size">l</label>
-                            </div>
-                            <div class="sc-item">
-                                <input type="radio" id="xs-size">
-                                <label for="xs-size">xs</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="filter-widget">
-                        <h4 class="fw-title">Tags</h4>
-                        <div class="fw-tags">
-                            <a href="#">Towel</a>
-                            <a href="#">Shoes</a>
-                            <a href="#">Coat</a>
-                            <a href="#">Dresses</a>
-                            <a href="#">Trousers</a>
-                            <a href="#">Men's hats</a>
-                            <a href="#">Backpack</a>
-                        </div>
-                    </div>
 			<?
 			//region Filter
 			if ($isFilter): ?>
 				<div class="bx-sidebar-block">
 					<?
 					$APPLICATION->IncludeComponent("bitrix:catalog.smart.filter", "", array(
+                                                        "BRAND_ID" => $arParams["BRAND_ID"],
+                                                        "COLOR_ID" => $arParams["COLOR_ID"],
+                                                        "SIZE_ID" => $arParams["SIZE_ID"],
 							"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
 							"IBLOCK_ID" => $arParams["IBLOCK_ID"],
 							"SECTION_ID" => $arCurSection['ID'],
@@ -108,7 +78,6 @@ else
 		</div>
 	<?endif?>
 
-	<div class="pb-4 <?=(($isFilter || $isSidebar) ? "col-lg-9 col-md-8 col-sm-7" : "col")?>">
 		<?
 		if (ModuleManager::isModuleInstalled("sale"))
 		{
@@ -275,9 +244,53 @@ else
 		}
 		//endregion
 
+                
+                ?>
+            <div class="col-lg-9 order-1 order-lg-2">
+                    <div class="product-list">
+                        <div class="row">
+                            <div class="col-lg-4 col-sm-6">
+                                <div class="product-item">
+                                    <div class="pi-pic">
+                                        <img src="img/products/product-1.jpg" alt="">
+                                        <div class="sale pp-sale">Sale</div>
+                                        <div class="icon">
+                                            <i class="icon_heart_alt"></i>
+                                        </div>
+                                        <ul>
+                                            <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                            <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                            <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="pi-text">
+                                        <div class="catagory-name">Towel</div>
+                                        <a href="#">
+                                            <h5>Pure Pineapple</h5>
+                                        </a>
+                                        <div class="product-price">
+                                            $14.00
+                                            <span>$35.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    <div class="loading-more">
+                        <i class="icon_loading"></i>
+                        <a href="#">
+                            Loading More
+                        </a>
+                    </div>
+                </div>
+            
+            <?
+                
+                
 	 	 $intSectionID = $APPLICATION->IncludeComponent(
 					"bitrix:catalog.section",
-					"bootstrap_v4", array(
+					"", array(
 						"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
 						"IBLOCK_ID" => $arParams["IBLOCK_ID"],
 						"ELEMENT_SORT_FIELD" => $arParams["ELEMENT_SORT_FIELD"],
@@ -404,138 +417,7 @@ else
 				);
 
 				$GLOBALS['CATALOG_CURRENT_SECTION_ID'] = $intSectionID;
-
-		if (ModuleManager::isModuleInstalled("sale"))
-		{
-			if (!empty($arRecomData))
-			{
-				if (!isset($arParams['USE_BIG_DATA']) || $arParams['USE_BIG_DATA'] != 'N')
-				{
-					?>
-					<div class="row mb-3">
-						<div class="col" data-entity="parent-container">
-							<div class="catalog-block-header" data-entity="header" data-showed="false" style="display: none; opacity: 0;">
-								<?=GetMessage('CATALOG_PERSONAL_RECOM')?>
-							</div>
-							<? $APPLICATION->IncludeComponent("bitrix:catalog.section", "bootstrap_v4", array(
-									"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
-									"IBLOCK_ID" => $arParams["IBLOCK_ID"],
-									"ELEMENT_SORT_FIELD" => $arParams["ELEMENT_SORT_FIELD"],
-									"ELEMENT_SORT_ORDER" => $arParams["ELEMENT_SORT_ORDER"],
-									"ELEMENT_SORT_FIELD2" => $arParams["ELEMENT_SORT_FIELD2"],
-									"ELEMENT_SORT_ORDER2" => $arParams["ELEMENT_SORT_ORDER2"],
-									"PROPERTY_CODE" => (isset($arParams["LIST_PROPERTY_CODE"]) ? $arParams["LIST_PROPERTY_CODE"] : []),
-									"PROPERTY_CODE_MOBILE" => $arParams["LIST_PROPERTY_CODE_MOBILE"],
-									"INCLUDE_SUBSECTIONS" => $arParams["INCLUDE_SUBSECTIONS"],
-									"BASKET_URL" => $arParams["BASKET_URL"],
-									"ACTION_VARIABLE" => $arParams["ACTION_VARIABLE"],
-									"PRODUCT_ID_VARIABLE" => $arParams["PRODUCT_ID_VARIABLE"],
-									"SECTION_ID_VARIABLE" => $arParams["SECTION_ID_VARIABLE"],
-									"PRODUCT_QUANTITY_VARIABLE" => $arParams["PRODUCT_QUANTITY_VARIABLE"],
-									"PRODUCT_PROPS_VARIABLE" => $arParams["PRODUCT_PROPS_VARIABLE"],
-									"CACHE_TYPE" => $arParams["CACHE_TYPE"],
-									"CACHE_TIME" => $arParams["CACHE_TIME"],
-									"CACHE_FILTER" => $arParams["CACHE_FILTER"],
-									"CACHE_GROUPS" => $arParams["CACHE_GROUPS"],
-									"DISPLAY_COMPARE" => $arParams["USE_COMPARE"],
-									"PAGE_ELEMENT_COUNT" => 0,
-									"PRICE_CODE" => $arParams["~PRICE_CODE"],
-									"USE_PRICE_COUNT" => $arParams["USE_PRICE_COUNT"],
-									"SHOW_PRICE_COUNT" => $arParams["SHOW_PRICE_COUNT"],
-
-									"SET_BROWSER_TITLE" => "N",
-									"SET_META_KEYWORDS" => "N",
-									"SET_META_DESCRIPTION" => "N",
-									"SET_LAST_MODIFIED" => "N",
-									"ADD_SECTIONS_CHAIN" => "N",
-
-									"PRICE_VAT_INCLUDE" => $arParams["PRICE_VAT_INCLUDE"],
-									"USE_PRODUCT_QUANTITY" => $arParams['USE_PRODUCT_QUANTITY'],
-									"ADD_PROPERTIES_TO_BASKET" => (isset($arParams["ADD_PROPERTIES_TO_BASKET"]) ? $arParams["ADD_PROPERTIES_TO_BASKET"] : ''),
-									"PARTIAL_PRODUCT_PROPERTIES" => (isset($arParams["PARTIAL_PRODUCT_PROPERTIES"]) ? $arParams["PARTIAL_PRODUCT_PROPERTIES"] : ''),
-									"PRODUCT_PROPERTIES" => (isset($arParams["PRODUCT_PROPERTIES"]) ? $arParams["PRODUCT_PROPERTIES"] : []),
-
-									"OFFERS_CART_PROPERTIES" => (isset($arParams["OFFERS_CART_PROPERTIES"]) ? $arParams["OFFERS_CART_PROPERTIES"] : []),
-									"OFFERS_FIELD_CODE" => $arParams["LIST_OFFERS_FIELD_CODE"],
-									"OFFERS_PROPERTY_CODE" => (isset($arParams["LIST_OFFERS_PROPERTY_CODE"]) ? $arParams["LIST_OFFERS_PROPERTY_CODE"] : []),
-									"OFFERS_SORT_FIELD" => $arParams["OFFERS_SORT_FIELD"],
-									"OFFERS_SORT_ORDER" => $arParams["OFFERS_SORT_ORDER"],
-									"OFFERS_SORT_FIELD2" => $arParams["OFFERS_SORT_FIELD2"],
-									"OFFERS_SORT_ORDER2" => $arParams["OFFERS_SORT_ORDER2"],
-									"OFFERS_LIMIT" => (isset($arParams["LIST_OFFERS_LIMIT"]) ? $arParams["LIST_OFFERS_LIMIT"] : 0),
-
-									"SECTION_ID" => $intSectionID,
-									"SECTION_CODE" => "",
-									"SECTION_URL" => $arResult["FOLDER"].$arResult["URL_TEMPLATES"]["section"],
-									"DETAIL_URL" => $arResult["FOLDER"].$arResult["URL_TEMPLATES"]["element"],
-									"USE_MAIN_ELEMENT_SECTION" => $arParams["USE_MAIN_ELEMENT_SECTION"],
-									'CONVERT_CURRENCY' => $arParams['CONVERT_CURRENCY'],
-									'CURRENCY_ID' => $arParams['CURRENCY_ID'],
-									'HIDE_NOT_AVAILABLE' => $arParams["HIDE_NOT_AVAILABLE"],
-									'HIDE_NOT_AVAILABLE_OFFERS' => $arParams["HIDE_NOT_AVAILABLE_OFFERS"],
-
-									'LABEL_PROP' => $arParams['LABEL_PROP'],
-									'LABEL_PROP_MOBILE' => $arParams['LABEL_PROP_MOBILE'],
-									'LABEL_PROP_POSITION' => $arParams['LABEL_PROP_POSITION'],
-									'ADD_PICT_PROP' => $arParams['ADD_PICT_PROP'],
-									'PRODUCT_DISPLAY_MODE' => $arParams['PRODUCT_DISPLAY_MODE'],
-									'PRODUCT_BLOCKS_ORDER' => $arParams['LIST_PRODUCT_BLOCKS_ORDER'],
-									'PRODUCT_ROW_VARIANTS' => "[{'VARIANT':'3','BIG_DATA':true}]",
-									'ENLARGE_PRODUCT' => $arParams['LIST_ENLARGE_PRODUCT'],
-									'ENLARGE_PROP' => isset($arParams['LIST_ENLARGE_PROP']) ? $arParams['LIST_ENLARGE_PROP'] : '',
-									'SHOW_SLIDER' => $arParams['LIST_SHOW_SLIDER'],
-									'SLIDER_INTERVAL' => isset($arParams['LIST_SLIDER_INTERVAL']) ? $arParams['LIST_SLIDER_INTERVAL'] : '',
-									'SLIDER_PROGRESS' => isset($arParams['LIST_SLIDER_PROGRESS']) ? $arParams['LIST_SLIDER_PROGRESS'] : '',
-
-									"DISPLAY_TOP_PAGER" => 'N',
-									"DISPLAY_BOTTOM_PAGER" => 'N',
-									"HIDE_SECTION_DESCRIPTION" => "Y",
-
-									"RCM_TYPE" => isset($arParams['BIG_DATA_RCM_TYPE']) ? $arParams['BIG_DATA_RCM_TYPE'] : '',
-									"SHOW_FROM_SECTION" => 'Y',
-
-									'OFFER_ADD_PICT_PROP' => $arParams['OFFER_ADD_PICT_PROP'],
-									'OFFER_TREE_PROPS' => (isset($arParams['OFFER_TREE_PROPS']) ? $arParams['OFFER_TREE_PROPS'] : []),
-									'PRODUCT_SUBSCRIPTION' => $arParams['PRODUCT_SUBSCRIPTION'],
-									'SHOW_DISCOUNT_PERCENT' => $arParams['SHOW_DISCOUNT_PERCENT'],
-									'DISCOUNT_PERCENT_POSITION' => $arParams['DISCOUNT_PERCENT_POSITION'],
-									'SHOW_OLD_PRICE' => $arParams['SHOW_OLD_PRICE'],
-									'SHOW_MAX_QUANTITY' => $arParams['SHOW_MAX_QUANTITY'],
-									'MESS_SHOW_MAX_QUANTITY' => (isset($arParams['~MESS_SHOW_MAX_QUANTITY']) ? $arParams['~MESS_SHOW_MAX_QUANTITY'] : ''),
-									'RELATIVE_QUANTITY_FACTOR' => (isset($arParams['RELATIVE_QUANTITY_FACTOR']) ? $arParams['RELATIVE_QUANTITY_FACTOR'] : ''),
-									'MESS_RELATIVE_QUANTITY_MANY' => (isset($arParams['~MESS_RELATIVE_QUANTITY_MANY']) ? $arParams['~MESS_RELATIVE_QUANTITY_MANY'] : ''),
-									'MESS_RELATIVE_QUANTITY_FEW' => (isset($arParams['~MESS_RELATIVE_QUANTITY_FEW']) ? $arParams['~MESS_RELATIVE_QUANTITY_FEW'] : ''),
-									'MESS_BTN_BUY' => (isset($arParams['~MESS_BTN_BUY']) ? $arParams['~MESS_BTN_BUY'] : ''),
-									'MESS_BTN_ADD_TO_BASKET' => (isset($arParams['~MESS_BTN_ADD_TO_BASKET']) ? $arParams['~MESS_BTN_ADD_TO_BASKET'] : ''),
-									'MESS_BTN_SUBSCRIBE' => (isset($arParams['~MESS_BTN_SUBSCRIBE']) ? $arParams['~MESS_BTN_SUBSCRIBE'] : ''),
-									'MESS_BTN_DETAIL' => (isset($arParams['~MESS_BTN_DETAIL']) ? $arParams['~MESS_BTN_DETAIL'] : ''),
-									'MESS_NOT_AVAILABLE' => (isset($arParams['~MESS_NOT_AVAILABLE']) ? $arParams['~MESS_NOT_AVAILABLE'] : ''),
-									'MESS_BTN_COMPARE' => (isset($arParams['~MESS_BTN_COMPARE']) ? $arParams['~MESS_BTN_COMPARE'] : ''),
-
-									'USE_ENHANCED_ECOMMERCE' => (isset($arParams['USE_ENHANCED_ECOMMERCE']) ? $arParams['USE_ENHANCED_ECOMMERCE'] : ''),
-									'DATA_LAYER_NAME' => (isset($arParams['DATA_LAYER_NAME']) ? $arParams['DATA_LAYER_NAME'] : ''),
-									'BRAND_PROPERTY' => (isset($arParams['BRAND_PROPERTY']) ? $arParams['BRAND_PROPERTY'] : ''),
-
-									'TEMPLATE_THEME' => (isset($arParams['TEMPLATE_THEME']) ? $arParams['TEMPLATE_THEME'] : ''),
-									'ADD_TO_BASKET_ACTION' => $basketAction,
-									'SHOW_CLOSE_POPUP' => isset($arParams['COMMON_SHOW_CLOSE_POPUP']) ? $arParams['COMMON_SHOW_CLOSE_POPUP'] : '',
-									'COMPARE_PATH' => $arResult['FOLDER'].$arResult['URL_TEMPLATES']['compare'],
-									'COMPARE_NAME' => $arParams['COMPARE_NAME'],
-									'USE_COMPARE_LIST' => 'Y',
-									'BACKGROUND_IMAGE' => '',
-									'DISABLE_INIT_JS_IN_COMPONENT' => (isset($arParams['DISABLE_INIT_JS_IN_COMPONENT']) ? $arParams['DISABLE_INIT_JS_IN_COMPONENT'] : '')
-								),
-								$component
-							);
-							?>
-						</div>
-					</div>
-					<?
-				}
-			}
-		}
 		?>
-	</div>
 </div>
 </div>
 </section>

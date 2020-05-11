@@ -48,68 +48,11 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 			<input type="hidden" name="<?echo $arItem["CONTROL_NAME"]?>" id="<?echo $arItem["CONTROL_ID"]?>" value="<?echo $arItem["HTML_VALUE"]?>" />
 			<?endforeach;?>
 			<div class="row">
-				<?
-				//not prices
-				foreach($arResult["ITEMS"] as $key=>$arItem)
-				{
-                                    /*
-					if(
-						empty($arItem["VALUES"])
-						|| isset($arItem["PRICE"])
-					)
-						continue;
-                                    */
-					if (
-						$arItem["DISPLAY_TYPE"] == "A"
-						&& (
-							$arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"] <= 0
-						)
-					)
-						continue;
-					?>
-					<div class="<?if ($arParams["FILTER_VIEW_MODE"] == "HORIZONTAL"):?>col-sm-6 col-md-4<?endif?> bx-filter-parameters-box <?if ($arItem["DISPLAY_EXPANDED"]== "Y"):?>bx-active<?endif?>">
-						<?
-                                                        if($arItem["ID"] == 5):
-                                                            ?>
-                                                            <div style = "padding-left: 0px;">
-                                                                <div class="bx-filter-param-btn-inline">
-                                                                <div class="filter-widget">
-                                                                <h4 class="fw-title">Brand</h4>
-                                                                    <div class="fw-brand-check">
-                                                                            <?foreach ($arItem["VALUES"] as $val => $ar):?>
-                                                                                <div class="bc-item">                                                                                   
-                                                                                    <?
-                                                                                    $class = "";
-                                                                                    if ($ar["CHECKED"])
-                                                                                            $class.= " bx-active";
-                                                                                    if ($ar["DISABLED"])
-                                                                                            $class.= " disabled";
-                                                                                    ?>
-                                                                                    <label for="<?=$ar["CONTROL_ID"]?>" data-role="label_<?=$ar["CONTROL_ID"]?>" class="bx-filter-param-label <?=$class?>" onclick="smartFilter.keyup(BX('<?=CUtil::JSEscape($ar["CONTROL_ID"])?>')); BX.toggleClass(this, 'bx-active');">
-                                                                                        <?=$ar["VALUE"]?>
-                                                                                            <input
-                                                                                            style="display: block"
-                                                                                            type="checkbox"
-                                                                                            name="<?=$ar["CONTROL_NAME"]?>"
-                                                                                            id="<?=$ar["CONTROL_ID"]?>"
-                                                                                            value="<?=$ar["HTML_VALUE"]?>"
-                                                                                            <? echo $ar["CHECKED"]? 'checked="checked"': '' ?>
-                                                                                        />
-                                                                                        <span class="checkmark"></span>
-                                                                                    </label>
-                                                                                </div>
-                                                                            <?endforeach?>
-                                                                            </div>
-                                                                    </div>
-                                                            </div>
-                                                         </div>
-                                                                <?
-                                                        endif;
-                                                        ?>
-                                            
-                                            
-                                            
+                            
+                            
+                            
                                                 <?
+                                                foreach($arResult["ITEMS"] as $key=>$arItem):
                                                     $key = $arItem["ENCODED_ID"];
                                                     if(isset($arItem["PRICE"])):
                                                             if ($arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"] <= 0)
@@ -136,6 +79,7 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
                                                                     $prices[$step_num] = number_format($arItem["VALUES"]["MAX"]["VALUE"], $precision, ".", "");
                                                             }
                                                             ?>
+                                                        <div class="<?if ($arParams["FILTER_VIEW_MODE"] == "HORIZONTAL"):?>col-sm-6 col-md-4<?endif?> bx-filter-parameters-box bx-active">
                                                             <div class="filter-widget">
                                                                 <h4 class="fw-title">Price</h4>
                                                                 <div class="filter-range-wrap">
@@ -218,6 +162,7 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
                                                                             </div>
                                                                     </div>
                                                             </div>
+                                                            </div>
                                                             <?
                                                             $arJsParams = array(
                                                                     "leftSlider" => 'left_slider_'.$key,
@@ -244,52 +189,32 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
                                                                     });
                                                             </script>
                                                     <?endif;
+                                                endforeach
                                             ?>
-                                            
-                                            
-                                            
-                                            <?
-                                            if($arItem["ID"] == 21):?>
-                                                <div class="filter-widget">
-                                                    <h4 class="fw-title">Color</h4>
-                                                    <div class="fw-color-choose">
-                                                        
-                                                            
-                                                          <?foreach ($arItem["VALUES"] as $val => $ar):?>
-                                                             <div class="cs-item">
-                                                                <input
-                                                                        style="display: none"
-                                                                        type="radio"
-                                                                        name="<?=$ar["CONTROL_NAME"]?>"
-                                                                        id="<?=$ar["CONTROL_ID"]?>"
-                                                                        value="<?=$ar["HTML_VALUE"]?>"
-                                                                        <? echo $ar["CHECKED"]? 'checked="checked"': '' ?>
-                                                                />
-                                                                <?
-                                                                $class = "";
-                                                                if ($ar["CHECKED"])
-                                                                        $class.= " bx-active";
-                                                                if ($ar["DISABLED"])
-                                                                        $class.= " disabled";
-                                                                ?>
-                                                                <label for="<?=$ar["CONTROL_ID"]?>" data-role="label_<?=$ar["CONTROL_ID"]?>" class="bx-filter-param-label <?=$class?>" onclick="smartFilter.keyup(BX('<?=CUtil::JSEscape($ar["CONTROL_ID"])?>')); BX.toggleClass(this, 'bx-active');">
-                                                                        <span class="bx-filter-btn-color-icon" style="background-image:url('<?=$ar["FILE"]["SRC"]?>');"></span>
-                                                                        <?=$ar["VALUE"]?>
-                                                                </label>  
-                                                        </div>
-                                                        <?endforeach?>
-                                                    </div>
-                                                </div>
-                                            <?
-                                                endif;
-                                            ?>
-                                            
-                                            
-                                            
-                                            
+                            
+                            
+				<?
+				//not prices
+				foreach($arResult["ITEMS"] as $key=>$arItem)
+				{
+					if(
+						empty($arItem["VALUES"])
+						|| isset($arItem["PRICE"])
+					)
+						continue;
+					if (
+						$arItem["DISPLAY_TYPE"] == "A"
+						&& (
+							$arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"] <= 0
+						)
+					)
+						continue;
+					?>
+					<div class="<?if ($arParams["FILTER_VIEW_MODE"] == "HORIZONTAL"):?>col-sm-6 col-md-4<?endif?> bx-filter-parameters-box <?if ($arItem["DISPLAY_EXPANDED"]== "Y"):?>bx-active<?endif?>">
+
                                             
                                             <span class="bx-filter-container-modef"></span>
-						<div class="bx-filter-parameters-box-title" onclick="smartFilter.hideFilterProps(this)">
+						<div style = "display:none;" class="bx-filter-parameters-box-title" onclick="smartFilter.hideFilterProps(this)">
 							<span class="bx-filter-parameters-box-hint"><?=$arItem["NAME"]?>
 								<?if ($arItem["FILTER_HINT"] <> ""):?>
 									<i id="item_title_hint_<?echo $arItem["ID"]?>" class="fa fa-question-circle"></i>
@@ -305,11 +230,11 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 										});
 									</script>
 								<?endif?>
-								<i data-role="prop_angle" class="fa fa-angle-<?if ($arItem["DISPLAY_EXPANDED"]== "Y"):?>up<?else:?>down<?endif?>"></i>
+								<i data-role="prop_angle" class="fa fa-angle-up"></i>
 							</span>
 						</div>
 
-						<div class="bx-filter-block" data-role="bx_filter_block">
+						<div class="bx-filter-block" data-role="bx_filter_block" style = "display:block;">
 							<div class="row bx-filter-parameters-box-container">
 							<?
 							$arCur = current($arItem["VALUES"]);
@@ -433,36 +358,79 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 									break;
 								case "G"://CHECKBOXES_WITH_PICTURES
 									?>
-                                                                        <!--
-                                                                        <div class="col-xs-12">
-										<div class="bx-filter-param-btn-inline">
-										<?foreach ($arItem["VALUES"] as $val => $ar):?>
-											<input
-												style="display: none"
-												type="checkbox"
-												name="<?=$ar["CONTROL_NAME"]?>"
-												id="<?=$ar["CONTROL_ID"]?>"
-												value="<?=$ar["HTML_VALUE"]?>"
-												<? echo $ar["CHECKED"]? 'checked="checked"': '' ?>
-											/>
-											<?
-											$class = "";
-											if ($ar["CHECKED"])
-												$class.= " bx-active";
-											if ($ar["DISABLED"])
-												$class.= " disabled";
-											?>
-											<label for="<?=$ar["CONTROL_ID"]?>" data-role="label_<?=$ar["CONTROL_ID"]?>" class="bx-filter-param-label <?=$class?>" onclick="smartFilter.keyup(BX('<?=CUtil::JSEscape($ar["CONTROL_ID"])?>')); BX.toggleClass(this, 'bx-active');">
-												<span class="bx-filter-param-btn bx-color-sl">
-													<?if (isset($ar["FILE"]) && !empty($ar["FILE"]["SRC"])):?>
-													<span class="bx-filter-btn-color-icon" style="background-image:url('<?=$ar["FILE"]["SRC"]?>');"></span>
-													<?endif?>
-												</span>
-											</label>
-										<?endforeach?>
-										</div>
-									</div>
-                                                                        -->
+                                                                        <?
+                                                                        if($arItem["ID"] == 5):
+                                                                            ?>
+                                                                            <div style = "padding-left: 0px;">
+                                                                                <div class="bx-filter-param-btn-inline">
+                                                                                <div class="filter-widget">
+                                                                                <h4 class="fw-title"><?=$arItem["NAME"]?></h4>
+                                                                                    <div class="fw-brand-check">
+                                                                                            <?foreach ($arItem["VALUES"] as $val => $ar):?>
+                                                                                                <div class="bc-item">                                                                                   
+                                                                                                    <?
+                                                                                                    $class = "";
+                                                                                                    if ($ar["CHECKED"])
+                                                                                                            $class.= " bx-active";
+                                                                                                    if ($ar["DISABLED"])
+                                                                                                            $class.= " disabled";
+                                                                                                    ?>
+                                                                                                    <label for="<?=$ar["CONTROL_ID"]?>" data-role="label_<?=$ar["CONTROL_ID"]?>" class="bx-filter-param-label <?=$class?>" onclick="smartFilter.keyup(BX('<?=CUtil::JSEscape($ar["CONTROL_ID"])?>')); BX.toggleClass(this, 'bx-active');">
+                                                                                                        <?=$ar["VALUE"]?>
+                                                                                                            <input
+                                                                                                            style="display: block"
+                                                                                                            type="checkbox"
+                                                                                                            name="<?=$ar["CONTROL_NAME"]?>"
+                                                                                                            id="<?=$ar["CONTROL_ID"]?>"
+                                                                                                            value="<?=$ar["HTML_VALUE"]?>"
+                                                                                                            <? echo $ar["CHECKED"]? 'checked="checked"': '' ?>
+                                                                                                        />
+                                                                                                        <span class="checkmark"></span>
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            <?endforeach?>
+                                                                                            </div>
+                                                                                    </div>
+                                                                            </div>
+                                                                         </div>
+                                                                                <?
+                                                                        endif;
+                                                                        ?>
+                                                                         <?
+                                                                        if($arItem["ID"] == 21):?>
+                                                                            <div class="filter-widget">
+                                                                                <h4 class="fw-title">Color</h4>
+                                                                                <div class="fw-color-choose">
+
+
+                                                                                      <?foreach ($arItem["VALUES"] as $val => $ar):?>
+                                                                                         <div class="cs-item">
+                                                                                            <input
+                                                                                                    style="display: none"
+                                                                                                    type="radio"
+                                                                                                    name="<?=$ar["CONTROL_NAME"]?>"
+                                                                                                    id="<?=$ar["CONTROL_ID"]?>"
+                                                                                                    value="<?=$ar["HTML_VALUE"]?>"
+                                                                                                    <? echo $ar["CHECKED"]? 'checked="checked"': '' ?>
+                                                                                            />
+                                                                                            <?
+                                                                                            $class = "";
+                                                                                            if ($ar["CHECKED"])
+                                                                                                    $class.= " bx-active";
+                                                                                            if ($ar["DISABLED"])
+                                                                                                    $class.= " disabled";
+                                                                                            ?>
+                                                                                            <label for="<?=$ar["CONTROL_ID"]?>" data-role="label_<?=$ar["CONTROL_ID"]?>" class="bx-filter-param-label <?=$class?>" onclick="smartFilter.keyup(BX('<?=CUtil::JSEscape($ar["CONTROL_ID"])?>')); BX.toggleClass(this, 'bx-active');">
+                                                                                                    <span class="bx-filter-btn-color-icon" style="background-image:url('<?=$ar["FILE"]["SRC"]?>');"></span>
+                                                                                                    <?=$ar["VALUE"]?>
+                                                                                            </label>  
+                                                                                    </div>
+                                                                                    <?endforeach?>
+                                                                                </div>
+                                                                            </div> 
+                                                                        <?
+                                                                            endif;
+                                                                        ?>
 									<?
 									break;
 								case "H"://CHECKBOXES_WITH_PICTURES_AND_LABELS
@@ -730,28 +698,66 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 									break;
 								default://CHECKBOXES
 									?>
-									<div class="col-xs-12">
-										<?foreach($arItem["VALUES"] as $val => $ar):?>
-											<div class="checkbox">
-												<label data-role="label_<?=$ar["CONTROL_ID"]?>" class="bx-filter-param-label <? echo $ar["DISABLED"] ? 'disabled': '' ?>" for="<? echo $ar["CONTROL_ID"] ?>">
-													<span class="bx-filter-input-checkbox">
-														<input
-															type="checkbox"
-															value="<? echo $ar["HTML_VALUE"] ?>"
-															name="<? echo $ar["CONTROL_NAME"] ?>"
-															id="<? echo $ar["CONTROL_ID"] ?>"
-															<? echo $ar["CHECKED"]? 'checked="checked"': '' ?>
-															onclick="smartFilter.click(this)"
-														/>
-														<span class="bx-filter-param-text" title="<?=$ar["VALUE"];?>"><?=$ar["VALUE"];?><?
-														if ($arParams["DISPLAY_ELEMENT_COUNT"] !== "N" && isset($ar["ELEMENT_COUNT"])):
-															?>&nbsp;(<span data-role="count_<?=$ar["CONTROL_ID"]?>"><? echo $ar["ELEMENT_COUNT"]; ?></span>)<?
-														endif;?></span>
-													</span>
-												</label>
-											</div>
-										<?endforeach;?>
-									</div>
+                                                                        
+                                                                            <?if($arItem["ID"] == 23):?>
+                                                                                <div class="filter-widget">
+                                                                                    <h4 class="fw-title">Size</h4>
+                                                                                    <div class="fw-size-choose">            
+                                                                                <?foreach($arItem["VALUES"] as $val => $ar):?>
+                                                                                         <label data-role="label_<?=$ar["CONTROL_ID"]?>" class="bx-filter-param-label <? echo $ar["DISABLED"] ? 'disabled': '' ?>" for="<? echo $ar["CONTROL_ID"] ?>">
+                                                                                            <span class="bx-filter-input-checkbox">
+                                                                                            <div class="sc-item">
+                                                                                                <input
+                                                                                                type="checkbox"
+                                                                                                value="<? echo $ar["HTML_VALUE"] ?>"
+                                                                                                name="<? echo $ar["CONTROL_NAME"] ?>"
+                                                                                                id="<? echo $ar["CONTROL_ID"] ?>"
+                                                                                                <? echo $ar["CHECKED"]? 'checked="checked"': '' ?>
+                                                                                                onclick="smartFilter.click(this)"
+                                                                                                />
+                                                                                                <span class="bx-filter-param-text" title="<?=$ar["VALUE"];?>"><?=$ar["VALUE"];?></span> 
+                                                                                            </div>                                                   
+                                                                                            </span>
+                                                                                        </label>                   
+                                                                                <?endforeach;?>  
+                                                                                </div>
+                                                                            </div>  
+                                                                            <?else:?>
+                                                                                <div class="col-xs-12">
+                                                                                        <div style = "padding-left: 0px;">
+                                                                                        <div class="bx-filter-param-btn-inline">
+                                                                                        <div class="filter-widget">
+                                                                                        <h4 class="fw-title"><?=$arItem["NAME"]?></h4>
+                                                                                            <div class="fw-brand-check">
+                                                                                                    <?foreach ($arItem["VALUES"] as $val => $ar):?>
+                                                                                                        <div class="bc-item">                                                                                   
+                                                                                                            <?
+                                                                                                            $class = "";
+                                                                                                            if ($ar["CHECKED"])
+                                                                                                                    $class.= " bx-active";
+                                                                                                            if ($ar["DISABLED"])
+                                                                                                                    $class.= " disabled";
+                                                                                                            ?>
+                                                                                                            <label for="<?=$ar["CONTROL_ID"]?>" data-role="label_<?=$ar["CONTROL_ID"]?>" class="bx-filter-param-label <?=$class?>" onclick="smartFilter.keyup(BX('<?=CUtil::JSEscape($ar["CONTROL_ID"])?>')); BX.toggleClass(this, 'bx-active');">
+                                                                                                                <?=$ar["VALUE"]?>
+                                                                                                                    <input
+                                                                                                                    style="display: block"
+                                                                                                                    type="checkbox"
+                                                                                                                    name="<?=$ar["CONTROL_NAME"]?>"
+                                                                                                                    id="<?=$ar["CONTROL_ID"]?>"
+                                                                                                                    value="<?=$ar["HTML_VALUE"]?>"
+                                                                                                                    <? echo $ar["CHECKED"]? 'checked="checked"': '' ?>
+                                                                                                                />
+                                                                                                                <span class="checkmark"></span>
+                                                                                                            </label>
+                                                                                                        </div>
+                                                                                                    <?endforeach?>
+                                                                                                    </div>
+                                                                                            </div>
+                                                                                    </div>
+                                                                                 </div>
+                                                                                </div>
+                                                                            <?endif;?>
 							<?
 							}
 							?>

@@ -8,6 +8,9 @@ class Settings{
     private $bannerInTopCarousel;
     private $bannerInBottomCarousel;
     private $adminID;
+    private $propertyBrandID;
+    private $propertyColorID;
+    private $propertySizeID;
     
     function __construct (){
         $this->propertySaleLeader = 2;
@@ -15,6 +18,9 @@ class Settings{
         $this->bannerInTopCarousel = 323;
         $this->bannerInBottomCarousel = 325;
         $this->adminID = 1;
+        $this->propertyBrandID = 5;
+        $this->propertyColorID = 21;
+        $this->propertySizeID = 23;
     }
 
     public function getPropertySaleLeader(){
@@ -31,6 +37,15 @@ class Settings{
     }
     public function getAdminID(){
         return $this->adminID;
+    }
+    public function getPropertyBrandID(){
+        return $this->propertyBrandID;
+    }
+    public function getPropertyColorID(){
+        return $this->propertyColorID;
+    }
+    public function getPropertySizeID(){
+        return $this->propertySizeID;
     }
 }
 

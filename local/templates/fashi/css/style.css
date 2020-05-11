@@ -1937,6 +1937,24 @@ ol {
 	color: #ffffff;
 }
 
+.filter-widget .fw-size-choose .sc-item span {
+	font-size: 16px;
+	color: #252525;
+	font-weight: 700;
+	height: 40px;
+	width: 47px;
+	border: 1px solid #ebebeb;
+	text-align: center;
+	line-height: 40px;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.filter-widget .fw-size-choose .sc-item span.active {
+	background: #252525;
+	color: #ffffff;
+}
+
 .filter-widget .fw-tags a {
 	display: inline-block;
 	font-size: 16px;

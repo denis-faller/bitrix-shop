@@ -1,8 +1,13 @@
 <?
 define("HIDE_SIDEBAR", true);
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+\Bitrix\Main\Loader::includeModule('richsite.fashi');
+$settings=new Richsite\Fashi\Settings;
 ?>
 <?$APPLICATION->IncludeComponent("bitrix:catalog", "", array(
+        "BRAND_ID" => $settings->getPropertyBrandID(),
+        "COLOR_ID" => $settings->getPropertyColorID(),
+        "SIZE_ID" => $settings->getPropertySizeID(),
 	"IBLOCK_TYPE" => "catalog",
 	"IBLOCK_ID" => "2",
 	"TEMPLATE_THEME" => "site",
@@ -55,7 +60,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 	"SECTION_TOP_DEPTH" => "1",
 	"SECTIONS_VIEW_MODE" => "TILE",
 	"SECTIONS_SHOW_PARENT_NAME" => "N",
-	"PAGE_ELEMENT_COUNT" => "15",
+	"PAGE_ELEMENT_COUNT" => "3",
 	"LINE_ELEMENT_COUNT" => "3",
 	"ELEMENT_SORT_FIELD" => "desc",
 	"ELEMENT_SORT_ORDER" => "asc",
