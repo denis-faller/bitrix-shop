@@ -359,7 +359,7 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 								case "G"://CHECKBOXES_WITH_PICTURES
 									?>
                                                                         <?
-                                                                        if($arItem["ID"] == 5):
+                                                                        if($arItem["ID"] == $arParams["BRAND_ID"]):
                                                                             ?>
                                                                             <div style = "padding-left: 0px;">
                                                                                 <div class="bx-filter-param-btn-inline">
@@ -397,7 +397,7 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
                                                                         endif;
                                                                         ?>
                                                                          <?
-                                                                        if($arItem["ID"] == 21):?>
+                                                                        if($arItem["ID"] == $arParams["COLOR_ID"]):?>
                                                                             <div class="filter-widget">
                                                                                 <h4 class="fw-title">Color</h4>
                                                                                 <div class="fw-color-choose">
@@ -699,7 +699,7 @@ $this->addExternalCss("/bitrix/css/main/font-awesome.css");
 								default://CHECKBOXES
 									?>
                                                                         
-                                                                            <?if($arItem["ID"] == 23):?>
+                                                                            <?if($arItem["ID"] == $arParams["SIZE_ID"]):?>
                                                                                 <div class="filter-widget">
                                                                                     <h4 class="fw-title">Size</h4>
                                                                                     <div class="fw-size-choose">            
