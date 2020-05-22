@@ -2,6 +2,8 @@
 
 use Bitrix\Main\Loader;
 use Bitrix\Main\ModuleManager;
+use Bitrix\Main\Application;
+use Bitrix\Main\Web\Cookie;
 
 /**
  * @global CMain $APPLICATION
@@ -284,13 +286,43 @@ else
                         </a>
                     </div>
                 </div>
-            
-            <?
-                
-                
+                <?
+$tmpCookieSortField = Application::getInstance()->getContext()->getRequest()->getCookie("sort_field");
+$tmpCookieSortOrder = Application::getInstance()->getContext()->getRequest()->getCookie("sort_order");
+$tmpCookieCount = Application::getInstance()->getContext()->getRequest()->getCookie("count");
+
+if(!empty($_REQUEST['sort_field'])){
+    if(!empty($_REQUEST['sort_order']) && in_array($_REQUEST['sort_order'], ['asc', 'desc'])){
+        $tmpCookieSortField = $_REQUEST['sort_field'];
+        $cookie = new Cookie("sort_field", $_REQUEST['sort_field']);
+        Application::getInstance()->getContext()->getResponse()->addCookie($cookie);
+
+        $tmpCookieSortOrder = $_REQUEST['sort_order'];
+        $cookie = new Cookie("sort_order", $_REQUEST['sort_order']);
+        Application::getInstance()->getContext()->getResponse()->addCookie($cookie);
+    }
+}
+if(!empty($_REQUEST['count'])){
+    $tmpCookieCount = $_REQUEST['count'];
+    $cookie = new Cookie("count", $_REQUEST['count']);
+    Application::getInstance()->getContext()->getResponse()->addCookie($cookie);
+}
+
+if(!empty($tmpCookieSortField) && !empty($tmpCookieSortOrder)){
+    $arParams["ELEMENT_SORT_FIELD"] = $tmpCookieSortField;
+    $arParams["ELEMENT_SORT_ORDER"] = $tmpCookieSortOrder;
+}
+
+if(!empty($tmpCookieCount)){
+    $arParams["PAGE_ELEMENT_COUNT"] = $tmpCookieCount;
+}
+?>               
+<div class="col-lg-9 order-1 order-lg-2">               
+                <?
 	 	 $intSectionID = $APPLICATION->IncludeComponent(
 					"bitrix:catalog.section",
 					"", array(
+                                                "AJAX_MODE" => "Y",
 						"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
 						"IBLOCK_ID" => $arParams["IBLOCK_ID"],
 						"ELEMENT_SORT_FIELD" => $arParams["ELEMENT_SORT_FIELD"],
@@ -344,7 +376,7 @@ else
 						"PAGER_BASE_LINK_ENABLE" => $arParams["PAGER_BASE_LINK_ENABLE"],
 						"PAGER_BASE_LINK" => $arParams["PAGER_BASE_LINK"],
 						"PAGER_PARAMS_NAME" => $arParams["PAGER_PARAMS_NAME"],
-						"LAZY_LOAD" => $arParams["LAZY_LOAD"],
+						"LAZY_LOAD" => "Y",
 						"MESS_BTN_LAZY_LOAD" => $arParams["~MESS_BTN_LAZY_LOAD"],
 						"LOAD_ON_SCROLL" => $arParams["LOAD_ON_SCROLL"],
 
@@ -410,14 +442,20 @@ else
 						'COMPARE_NAME' => $arParams['COMPARE_NAME'],
 						'USE_COMPARE_LIST' => 'Y',
 						'BACKGROUND_IMAGE' => (isset($arParams['SECTION_BACKGROUND_IMAGE']) ? $arParams['SECTION_BACKGROUND_IMAGE'] : ''),
-						'COMPATIBLE_MODE' => (isset($arParams['COMPATIBLE_MODE']) ? $arParams['COMPATIBLE_MODE'] : ''),
-						'DISABLE_INIT_JS_IN_COMPONENT' => (isset($arParams['DISABLE_INIT_JS_IN_COMPONENT']) ? $arParams['DISABLE_INIT_JS_IN_COMPONENT'] : '')
+						'COMPATIBLE_MODE' => "Y",
+						"DISABLE_INIT_JS_IN_COMPONENT" => "N",
 					),
 					$component
 				);
 
 				$GLOBALS['CATALOG_CURRENT_SECTION_ID'] = $intSectionID;
+                                
+                                
+                                
+                                
 		?>
+   </div>              
+                
 </div>
 </div>
 </section>

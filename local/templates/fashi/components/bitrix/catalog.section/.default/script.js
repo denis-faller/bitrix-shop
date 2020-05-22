@@ -3,6 +3,18 @@
 
 	if (!!window.JCCatalogSectionComponent)
 		return;
+            
+        BX.addCustomEvent('onAjaxSuccess', function() {
+            if(!$('.sorting').hasClass('nice-select')){
+                $('.sorting, .p-show').niceSelect();
+            }
+            $('.nice-select.sorting li').on("click", function(){
+                location.href = "?sort_field=name&sort_order="+$(this).attr("data-value")+"&count="+$(".nice-select.p-show .selected").attr("data-value");
+            });
+            $('.nice-select.p-show li').on("click", function(){
+                location.href = "?sort_field=name&sort_order="+$('.nice-select.sorting .selected').attr("data-value")+"&count="+$(this).attr("data-value");
+            });
+        });    
 
 	window.JCCatalogSectionComponent = function(params) {
 		this.formPosting = false;
