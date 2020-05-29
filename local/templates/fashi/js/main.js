@@ -252,5 +252,18 @@
 			}
 		}
 		$button.parent().find('input').val(newVal);
-	});
+	}); 
 })(jQuery);
+
+// add in wishlist
+function add2wish(p_id, pp_id, p, name, dpu, th){
+   $.ajax({
+       type: "POST",
+       url: "/ajax/wishlist.php",
+       data: "p_id=" + p_id + "&pp_id=" + pp_id + "&p=" + p + "&name=" + name + "&dpu=" + dpu,
+       success: function(html){
+           $(th).addClass('in_wishlist');
+           $('.heart-icon span').html(html);
+       }
+   });
+};        

@@ -17,6 +17,7 @@ $this->setFrameMode(true);
 
 if (isset($arResult['ITEM'])):
 	$item = $arResult['ITEM'];
+
 ?>       
     <div class="product-item">
         <div class="pi-pic">
@@ -25,7 +26,14 @@ if (isset($arResult['ITEM'])):
             <div class="sale">Sale</div>
             <?endif;?>
             <div class="icon">
-                <i class="icon_heart_alt"></i>
+                <i class="icon_heart_alt <? if (in_array($item["ID"], $arResult["DELAY_ITEMS"])) echo 'in_wishlist ';?>"
+                onclick="add2wish(
+                    '<?=$item["ID"]?>',
+                     '<?=$item["OFFERS"][0]["CATALOG_PRICE_ID_1"]?>',
+                     '<?=$item["OFFERS"][0]["CATALOG_PRICE_1"]?>',
+                     '<?=$item["NAME"]?>',
+                     '<?=$item["DETAIL_PAGE_URL"]?>',
+                     this)"></i>
             </div>
         </div>
         <div class="pi-text">

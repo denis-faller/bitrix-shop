@@ -1,5 +1,9 @@
 <?
 use Bitrix\Main\Page\Asset;
+use Bitrix\Main\Loader;
+Loader::includeModule("sale");
+Loader::includeModule('richsite.fashi');
+$fashi = new Richsite\Fashi\Fashi();
 ?><!DOCTYPE html>
 <html lang="zxx">
 
@@ -99,7 +103,7 @@ use Bitrix\Main\Page\Asset;
                             <li class="heart-icon">
                                 <a href="#">
                                     <i class="icon_heart_alt"></i>
-                                    <span>1</span>
+                                    <span><?=count($fashi->getArDelayItems())?></span>
                                 </a>
                             </li>
                             <li class="cart-icon">

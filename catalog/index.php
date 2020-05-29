@@ -3,8 +3,10 @@ define("HIDE_SIDEBAR", true);
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 \Bitrix\Main\Loader::includeModule('richsite.fashi');
 $settings=new Richsite\Fashi\Settings;
+$fashi = new Richsite\Fashi\Fashi();
 ?>
 <?$APPLICATION->IncludeComponent("bitrix:catalog", "", array(
+        "DELAY_ITEMS" => $fashi->getArDelayItems(),
         "BRAND_ID" => $settings->getPropertyBrandID(),
         "COLOR_ID" => $settings->getPropertyColorID(),
         "SIZE_ID" => $settings->getPropertySizeID(),
