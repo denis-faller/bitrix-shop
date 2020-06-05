@@ -92,14 +92,18 @@
 
 .product-item-scu-item-color-container,
 .product-item-scu-item-text-container {
+        padding: 0px!important;
 	display: inline-block;
 	box-sizing: border-box;
-	padding: 5px 3px;
 	max-width: 100%;
 	vertical-align: middle;
 }
 
-.product-item-scu-item-text-container { min-width: 48px; }
+.product-item-scu-item-text-container { 
+    margin-right: 5px;
+    min-width: 48px;
+
+}
 
 .product-item-scu-item-color-container {
 	max-width: 60px;
@@ -109,7 +113,7 @@
 .product-item-scu-item-color-block {
 	position: relative;
 	padding-top: 100%;
-	outline: 1px solid #c0cfda;
+	outline: 0px!important;
 	cursor: pointer;
 }
 
@@ -130,11 +134,14 @@
 	background-position: center;
 	background-size: contain;
 	background-repeat: no-repeat;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
 }
 
 .product-item-scu-item-text-block {
 	position: relative;
-	padding: 0 5px;
+	padding: 0px!important;
 	outline: 1px solid #c0cfda;
 	cursor: pointer;
 }
@@ -152,16 +159,21 @@
 
 .bx-retina .product-item-scu-item.selected .product-item-scu-item-text-block { outline-width: 1px; }
 
+.product-item-scu-item-text-block{
+    outline: 0px!important;
+}
+
 .product-item-scu-item-text {
-	overflow: hidden;
-	max-width: 100%;
-	vertical-align: middle;
-	text-align: center;
-	text-transform: uppercase;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	font-size: 11px;
-	line-height: 18px;
+    font-size: 16px!important;
+    color: #252525;
+    font-weight: 700;
+    height: 40px;
+    width: 47px;
+    border: 1px solid #ebebeb;
+    text-align: center!important;
+    line-height: 40px!important;
+    text-transform: uppercase!important;
+    cursor: pointer;
 }
 
 .product-item-scu-item-color-container.notallowed .product-item-scu-item-color-block,

@@ -198,9 +198,179 @@ $themeClass = isset($arParams['TEMPLATE_THEME']) ? ' bx-'.$arParams['TEMPLATE_TH
                                          '<?=$arResult["DETAIL_PAGE_URL"]?>',
                                          this)"></i></a>
                                 </div>
+                                <div class="pd-rating">
+                                    <?
+                                        $APPLICATION->IncludeComponent(
+                                                'bitrix:iblock.vote',
+                                                '',
+                                                array(
+                                                        'CUSTOM_SITE_ID' => isset($arParams['CUSTOM_SITE_ID']) ? $arParams['CUSTOM_SITE_ID'] : null,
+                                                        'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
+                                                        'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+                                                        'ELEMENT_ID' => $arResult['ID'],
+                                                        'ELEMENT_CODE' => '',
+                                                        'MAX_VOTE' => '5',
+                                                        'VOTE_NAMES' => array('1', '2', '3', '4', '5'),
+                                                        'SET_STATUS_404' => 'N',
+                                                        'DISPLAY_AS_RATING' => $arParams['VOTE_DISPLAY_AS_RATING'],
+                                                        'CACHE_TYPE' => $arParams['CACHE_TYPE'],
+                                                        'CACHE_TIME' => $arParams['CACHE_TIME']
+                                                ),
+                                                $component,
+                                                array('HIDE_ICONS' => 'Y')
+                                        );
+                                        ?>
+                                </div>
+                                <div class="pd-desc">
+                                    <p><?=$arResult['PREVIEW_TEXT']?></p>
+                                    <h4><?=$price['PRINT_RATIO_PRICE']?> <span><?=($showDiscount ? $price['PRINT_RATIO_BASE_PRICE'] : '')?></span></h4>
+                                </div>
+                                    <?
+                                        $showOffersBlock = $haveOffers && !empty($arResult['OFFERS_PROP']);
+                                        $mainBlockProperties = array_intersect_key($arResult['DISPLAY_PROPERTIES'], $arParams['MAIN_BLOCK_PROPERTY_CODE']);
+                                        $showPropsBlock = !empty($mainBlockProperties) || $arResult['SHOW_OFFERS_PROPS'];
+                                        $showBlockWithOffersAndProps = $showOffersBlock || $showPropsBlock;
+                                        ?>
+                                                        <?
+                                                        if ($showBlockWithOffersAndProps)
+                                                        {
+                                                        ?>
+                                                                <?
+                                                                foreach ($arParams['PRODUCT_INFO_BLOCK_ORDER'] as $blockName)
+                                                                {
+                                                                        switch ($blockName)
+                                                                        {
+                                                                                case 'sku':
+                                                                                        if ($showOffersBlock)
+                                                                                        {
+                                                                                                ?>
+                                                                                                <div class="mb-3" id="<?=$itemIds['TREE_ID']?>">
+                                                                                                        <?
+                                                                                                        foreach ($arResult['SKU_PROPS'] as $skuProperty)
+                                                                                                        {
+                                                                                                                if (!isset($arResult['OFFERS_PROP'][$skuProperty['CODE']]))
+                                                                                                                        continue;
+
+                                                                                                                $propertyId = $skuProperty['ID'];
+                                                                                                                $skuProps[] = array(
+                                                                                                                        'ID' => $propertyId,
+                                                                                                                        'SHOW_MODE' => $skuProperty['SHOW_MODE'],
+                                                                                                                        'VALUES' => $skuProperty['VALUES'],
+                                                                                                                        'VALUES_COUNT' => $skuProperty['VALUES_COUNT']
+                                                                                                                );
+                                                                                                                ?>
+                                                                                                                <?
+                                                                                                                if ($skuProperty['SHOW_MODE'] === 'PICT'):
+                                                                                                                ?>
+                                                                                                                    <div class="pd-color">
+                                                                                                                        <h6>Color</h6>
+                                                                                                                            <div class="pd-color-choose">
+                                                                                                                                <ul>
+                                                                                                                <?
+                                                                                                                endif;
+                                                                                                                ?>
+                                                                                                                                                        <?
+                                                                                                                                                        $endPict = true;
+                                                                                                                                                        foreach ($skuProperty['VALUES'] as &$value)
+                                                                                                                                                        {
+                                                                                                                                                                $value['NAME'] = htmlspecialcharsbx($value['NAME']);
+
+                                                                                                                                                                if ($skuProperty['SHOW_MODE'] === 'PICT')
+                                                                                                                                                                {
+                                                                                                                                                                        ?>
+                                                                                                                                                                        <li class="product-item-scu-item-color-container" title="<?=$value['NAME']?>"
+                                                                                                                                                                                data-treevalue="<?=$propertyId?>_<?=$value['ID']?>"
+                                                                                                                                                                                data-onevalue="<?=$value['ID']?>">
+                                                                                                                                                                                <div class="product-item-scu-item-color-block">
+                                                                                                                                                                                        <div class="product-item-scu-item-color" title="<?=$value['NAME']?>"
+                                                                                                                                                                                                style="background-image: url('<?=$value['PICT']['SRC']?>');">
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                </div>
+                                                                                                                                                                        </li>
+                                                                                                                                                                        <?
+                                                                                                                                                                }
+                                                                                                                                                                else
+                                                                                                                                                                {
+                                                                                                                                                                        if($endPict):?>
+                                                                                                                                                                        </ul>
+                                                                                                                                                                        </div>
+                                                                                                                                                                        <div class="pd-size-choose">  
+                                                                                                                                                                            <ul>
+                                                                                                                                                                        <?
+                                                                                                                                                                        $endPict = false;
+                                                                                                                                                                        endif;?>
+                                                                                                                                                                        <li class="product-item-scu-item-text-container" title="<?=$value['NAME']?>"
+                                                                                                                                                                                data-treevalue="<?=$propertyId?>_<?=$value['ID']?>"
+                                                                                                                                                                                data-onevalue="<?=$value['ID']?>">
+                                                                                                                                                                                <div class="product-item-scu-item-text-block">
+                                                                                                                                                                                        <div class="product-item-scu-item-text"><?=$value['NAME']?></div>
+                                                                                                                                                                                </div>
+                                                                                                                                                                        </li>
+                                                                                                                                                                        <?
+                                                                                                                                                                }
+                                                                                                                                                        }
+                                                                                                                                                        ?>
+                                                                                                                                                    </ul>
+                                                                                                                                                    </div>
+                                                                                                                <?
+                                                                                                        }
+                                                                                                        ?>
+                                                                                                </div>
+                                                                                               </div>                         
+                                                                                            </div>
+                                                                                                <?
+                                                                                        }
+
+                                                                                        break;
+
+                                                                                case 'props':
+                                                                                        if ($showPropsBlock)
+                                                                                        {
+                                                                                                ?>
+                                                                                                <div class="mb-3">
+                                                                                                        <?
+                                                                                                        if (!empty($mainBlockProperties))
+                                                                                                        {
+                                                                                                                ?>
+                                                                                                                <ul class="product-item-detail-properties">
+                                                                                                                        <?
+                                                                                                                        foreach ($mainBlockProperties as $property)
+                                                                                                                        {
+                                                                                                                                ?>
+                                                                                                                                <li class="product-item-detail-properties-item">
+                                                                                                                                        <span class="product-item-detail-properties-name text-muted"><?=$property['NAME']?></span>
+                                                                                                                                        <span class="product-item-detail-properties-dots"></span>
+                                                                                                                                        <span class="product-item-detail-properties-value"><?=(is_array($property['DISPLAY_VALUE'])
+                                                                                                                                                        ? implode(' / ', $property['DISPLAY_VALUE'])
+                                                                                                                                                        : $property['DISPLAY_VALUE'])?>
+                                                                                                                                        </span>
+                                                                                                                                </li>
+                                                                                                                                <?
+                                                                                                                        }
+                                                                                                                        ?>
+                                                                                                                </ul>
+                                                                                                                <?
+                                                                                                        }
+
+                                                                                                        if ($arResult['SHOW_OFFERS_PROPS'])
+                                                                                                        {
+                                                                                                                ?>
+                                                                                                                <ul class="product-item-detail-properties" id="<?=$itemIds['DISPLAY_MAIN_PROP_DIV']?>"></ul>
+                                                                                                                <?
+                                                                                                        }
+                                                                                                        ?>
+                                                                                                </div>
+                                                                                                <?
+                                                                                        }
+
+                                                                                        break;
+                                                                        }
+                                                                }
+                                                                ?>
+                                                        <?
+                                                        }
+                                                        ?>     
                             </div>
-                        </div>
-                    </div>
 			<div class="product-item-detail-slider-container" id="<?=$itemIds['BIG_SLIDER_ID']?>">
 				<span class="product-item-detail-slider-close" data-entity="close-popup"></span>
 				<div class="product-item-detail-slider-block
