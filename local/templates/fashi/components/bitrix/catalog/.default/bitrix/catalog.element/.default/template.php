@@ -172,6 +172,11 @@ $themeClass = isset($arParams['TEMPLATE_THEME']) ? ' bx-'.$arParams['TEMPLATE_TH
                                     <i class="fa fa-search-plus"></i>
                                 </div>
                             </div>
+                            	<div class="product-item-detail-slider-container" id="<?=$itemIds['BIG_SLIDER_ID']?>">
+                                    <div class="product-item-detail-slider-images-container" data-entity="images-container">
+                                    </div>
+				</div>
+
                             <div class="product-thumbs">
                                 <div class="product-thumbs-track ps-slider owl-carousel">
                                     <?
@@ -220,6 +225,7 @@ $themeClass = isset($arParams['TEMPLATE_THEME']) ? ' bx-'.$arParams['TEMPLATE_TH
                                         );
                                         ?>
                                 </div>
+                                <div style = "display:none" id="<?=$itemIds['PRICE_ID']?>"><?=$price['PRINT_RATIO_PRICE']?></div>
                                 <div class="pd-desc">
                                     <p><?=$arResult['PREVIEW_TEXT']?></p>
                                     <h4><?=$price['PRINT_RATIO_PRICE']?> <span><?=($showDiscount ? $price['PRINT_RATIO_BASE_PRICE'] : '')?></span></h4>
@@ -832,166 +838,6 @@ $themeClass = isset($arParams['TEMPLATE_THEME']) ? ' bx-'.$arParams['TEMPLATE_TH
 			}
 			?>
 		</div>
-	</div>
-
-	<!--Small Card-->
-	<div class="p-2 product-item-detail-short-card-fixed d-none d-md-block" id="<?=$itemIds['SMALL_CARD_PANEL_ID']?>">
-		<div class="product-item-detail-short-card-content-container">
-			<div class="product-item-detail-short-card-image">
-				<img src="" style="height: 65px;" data-entity="panel-picture">
-			</div>
-			<div class="product-item-detail-short-title-container" data-entity="panel-title">
-				<div class="product-item-detail-short-title-text"><?=$name?></div>
-				<?
-				if ($haveOffers)
-				{
-					?>
-					<div>
-						<div class="product-item-selected-scu-container" data-entity="panel-sku-container">
-							<?
-							$i = 0;
-
-							foreach ($arResult['SKU_PROPS'] as $skuProperty)
-							{
-								if (!isset($arResult['OFFERS_PROP'][$skuProperty['CODE']]))
-								{
-									continue;
-								}
-
-								$propertyId = $skuProperty['ID'];
-
-								foreach ($skuProperty['VALUES'] as $value)
-								{
-									$value['NAME'] = htmlspecialcharsbx($value['NAME']);
-									if ($skuProperty['SHOW_MODE'] === 'PICT')
-									{
-										?>
-										<div class="product-item-selected-scu product-item-selected-scu-color selected"
-											 title="<?=$value['NAME']?>"
-											 style="background-image: url('<?=$value['PICT']['SRC']?>'); display: none;"
-											 data-sku-line="<?=$i?>"
-											 data-treevalue="<?=$propertyId?>_<?=$value['ID']?>"
-											 data-onevalue="<?=$value['ID']?>">
-										</div>
-										<?
-									}
-									else
-									{
-										?>
-										<div class="product-item-selected-scu product-item-selected-scu-text selected"
-											 title="<?=$value['NAME']?>"
-											 style="display: none;"
-											 data-sku-line="<?=$i?>"
-											 data-treevalue="<?=$propertyId?>_<?=$value['ID']?>"
-											 data-onevalue="<?=$value['ID']?>">
-											<?=$value['NAME']?>
-										</div>
-										<?
-									}
-								}
-
-								$i++;
-							}
-							?>
-						</div>
-					</div>
-					<?
-				}
-				?>
-
-			</div>
-			<div class="product-item-detail-short-card-price">
-				<?
-				if ($arParams['SHOW_OLD_PRICE'] === 'Y')
-				{
-					?>
-					<div class="product-item-detail-price-old" style="display: <?=($showDiscount ? '' : 'none')?>;" data-entity="panel-old-price">
-						<?=($showDiscount ? $price['PRINT_RATIO_BASE_PRICE'] : '')?>
-					</div>
-					<?
-				}
-				?>
-				<div class="product-item-detail-price-current" data-entity="panel-price"><?=$price['PRINT_RATIO_PRICE']?></div>
-			</div>
-			<?
-			if ($showAddBtn)
-			{
-				?>
-				<div class="product-item-detail-short-card-btn"
-					style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;"
-					data-entity="panel-add-button">
-					<a class="btn <?=$showButtonClassName?> product-item-detail-buy-button"
-						id="<?=$itemIds['ADD_BASKET_LINK']?>"
-						href="javascript:void(0);">
-						<?=$arParams['MESS_BTN_ADD_TO_BASKET']?>
-					</a>
-				</div>
-				<?
-			}
-
-			if ($showBuyBtn)
-			{
-				?>
-				<div class="product-item-detail-short-card-btn"
-					style="display: <?=($actualItem['CAN_BUY'] ? '' : 'none')?>;"
-					data-entity="panel-buy-button">
-					<a class="btn <?=$buyButtonClassName?> product-item-detail-buy-button"
-					   id="<?=$itemIds['BUY_LINK']?>"
-					   href="javascript:void(0);">
-						<?=$arParams['MESS_BTN_BUY']?>
-					</a>
-				</div>
-				<?
-			}
-			?>
-			<div class="product-item-detail-short-card-btn"
-				style="display: <?=(!$actualItem['CAN_BUY'] ? '' : 'none')?>;"
-				data-entity="panel-not-available-button">
-				<a class="btn btn-link product-item-detail-buy-button" href="javascript:void(0)"
-					rel="nofollow">
-					<?=$arParams['MESS_NOT_AVAILABLE']?>
-				</a>
-			</div>
-		</div>
-	</div>
-	<!--Top tabs-->
-	<div class="pt-2 pb-0 product-item-detail-tabs-container-fixed d-none d-md-block" id="<?=$itemIds['TABS_PANEL_ID']?>">
-		<ul class="product-item-detail-tabs-list">
-			<?
-			if ($showDescription)
-			{
-				?>
-				<li class="product-item-detail-tab active" data-entity="tab" data-value="description">
-					<a href="javascript:void(0);" class="product-item-detail-tab-link">
-						<span><?=$arParams['MESS_DESCRIPTION_TAB']?></span>
-					</a>
-				</li>
-				<?
-			}
-
-			if (!empty($arResult['DISPLAY_PROPERTIES']) || $arResult['SHOW_OFFERS_PROPS'])
-			{
-				?>
-				<li class="product-item-detail-tab" data-entity="tab" data-value="properties">
-					<a href="javascript:void(0);" class="product-item-detail-tab-link">
-						<span><?=$arParams['MESS_PROPERTIES_TAB']?></span>
-					</a>
-				</li>
-				<?
-			}
-
-			if ($arParams['USE_COMMENTS'] === 'Y')
-			{
-				?>
-				<li class="product-item-detail-tab" data-entity="tab" data-value="comments">
-					<a href="javascript:void(0);" class="product-item-detail-tab-link">
-						<span><?=$arParams['MESS_COMMENTS_TAB']?></span>
-					</a>
-				</li>
-				<?
-			}
-			?>
-		</ul>
 	</div>
 
 	<meta itemprop="name" content="<?=$name?>" />

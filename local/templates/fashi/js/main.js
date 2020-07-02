@@ -236,9 +236,12 @@
 		Quantity change
 	--------------------- */
     var proQty = $('.pro-qty');
-	proQty.prepend('<span class="dec qtybtn">-</span>');
-	proQty.append('<span class="inc qtybtn">+</span>');
+        if(!proQty.hasClass("qty-cancel")){
+            proQty.prepend('<span class="dec qtybtn">-</span>');
+            proQty.append('<span class="inc qtybtn">+</span>');
+        }
 	proQty.on('click', '.qtybtn', function () {
+            if(!$(this).hasClass("qty-cancel")){    
 		var $button = $(this);
 		var oldValue = $button.parent().find('input').val();
 		if ($button.hasClass('inc')) {
@@ -252,6 +255,7 @@
 			}
 		}
 		$button.parent().find('input').val(newVal);
+            }
 	}); 
 })(jQuery);
 
