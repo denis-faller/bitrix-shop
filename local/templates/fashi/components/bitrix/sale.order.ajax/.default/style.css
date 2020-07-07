@@ -1526,3 +1526,9 @@ hr.bxe-light {
 
 /* USER CONSENT */
 .bx-sls .bx-ui-sls-container { min-height: 33px !important; }
+
+.bx-soa-cart-d {
+    float: inherit!important;
+    color: #333;
+    text-align: left!important;
+}

@@ -12,6 +12,83 @@ BX.saleOrderAjax = { // bad solution, actually, a singleton at the page
 	// called once, on component load
 	init: function(options)
 	{
+            $(".place-order-btn").on("click", function(){
+                if($.trim($(".name-order").val()) == ""){
+                    alert("Вы не ввели ФИО");
+                    return;
+                }
+                if($.trim($(".email-order").val()) == ""){
+                    alert("Вы не ввели Email");
+                    return;
+                }
+                if($.trim($(".phone-order").val()) == ""){
+                    alert("Вы не ввели телефон");
+                    return;
+                }
+                if($.trim($(".address-order").val()) == ""){
+                    alert("Вы не ввели адрес доставки");
+                    return;
+                }
+                
+                if($("#acc-create").length){
+                    if(!$("#acc-create").prop("checked")){
+                        alert("Вы не согласились на создание нового аккаунта");
+                        return;
+                    }
+                }
+                
+                let paySystemFlag = false;
+                $(".pay-system-order").each(function(){
+                    if($(this).prop("checked")){
+                        paySystemFlag = true;
+                    }
+                });
+                
+                if(!paySystemFlag){
+                    alert("Вы не выбрали платежную систему");
+                    return;
+                }
+                
+                let formData = $(".place-order-form").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: $(".place-order-form").prop("action"),
+                    data: formData,
+                    success: function(data) {
+                        if(typeof(data.order.REDIRECT_URL) != "undefined" && data.order.REDIRECT_URL !== null){
+                            location.href = data.order.REDIRECT_URL;
+                        }
+                    }
+            });
+        });
+        
+        $(".pay-system-order").on( "click", function(){
+            $(".pay-system-order").prop("checked", false);
+            $(this).prop("checked", true);
+        });
+        
+        $("#discount-order").on("change", function(){
+            let basketSum = 0;
+            $.ajax({
+                type: "POST",
+                url: "/ajax/discount.php",
+                data: {code: $(this).val()},
+                success: function(data){
+                    if(data != -1){
+                        data = $.parseJSON(data);
+                        $(".fw-normal").each(function(){
+                            if($(this).data("id") != null){
+                                basketSum += data[$(this).data("id")]["PRICE"];
+                                $(this).children("span").html(data[$(this).data("id")]["PRICE"]  + " Руб.");
+                            }
+                        });
+                        $(".subtotal-order").html(basketSum + " Руб.");
+                        $(".total-order").html(basketSum + parseFloat($(".delivery-price").val()) + " Руб.");
+                    }
+                }
+            });
+        });
+            
 		var ctx = this;
 		this.options = options;
 

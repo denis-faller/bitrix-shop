@@ -281,111 +281,13 @@ switch (LANGUAGE_ID)
 $this->addExternalJs($templateFolder.'/order_ajax.js');
 \Bitrix\Sale\PropertyValueCollection::initJs();
 $this->addExternalJs($templateFolder.'/script.js');
+
+
 ?>
 	<NOSCRIPT>
 		<div style="color:red"><?=Loc::getMessage('SOA_NO_JS')?></div>
 	</NOSCRIPT>
-<section class="checkout-section spad">
-        <div class="container">
-            <form action="#" class="checkout-form">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="checkout-content">
-                            <a href="#" class="content-btn">Click Here To Login</a>
-                        </div>
-                        <h4>Biiling Details</h4>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <label for="fir">First Name<span>*</span></label>
-                                <input type="text" id="fir">
-                            </div>
-                            <div class="col-lg-6">
-                                <label for="last">Last Name<span>*</span></label>
-                                <input type="text" id="last">
-                            </div>
-                            <div class="col-lg-12">
-                                <label for="cun-name">Company Name</label>
-                                <input type="text" id="cun-name">
-                            </div>
-                            <div class="col-lg-12">
-                                <label for="cun">Country<span>*</span></label>
-                                <input type="text" id="cun">
-                            </div>
-                            <div class="col-lg-12">
-                                <label for="street">Street Address<span>*</span></label>
-                                <input type="text" id="street" class="street-first">
-                                <input type="text">
-                            </div>
-                            <div class="col-lg-12">
-                                <label for="zip">Postcode / ZIP (optional)</label>
-                                <input type="text" id="zip">
-                            </div>
-                            <div class="col-lg-12">
-                                <label for="town">Town / City<span>*</span></label>
-                                <input type="text" id="town">
-                            </div>
-                            <div class="col-lg-6">
-                                <label for="email">Email Address<span>*</span></label>
-                                <input type="text" id="email">
-                            </div>
-                            <div class="col-lg-6">
-                                <label for="phone">Phone<span>*</span></label>
-                                <input type="text" id="phone">
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="create-item">
-                                    <label for="acc-create">
-                                        Create an account?
-                                        <input type="checkbox" id="acc-create">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="checkout-content">
-                            <input type="text" placeholder="Enter Your Coupon Code">
-                        </div>
-                        <div class="place-order">
-                            <h4>Your Order</h4>
-                            <div class="order-total">
-                                <ul class="order-table">
-                                    <li>Product <span>Total</span></li>
-                                    <li class="fw-normal">Combination x 1 <span>$60.00</span></li>
-                                    <li class="fw-normal">Combination x 1 <span>$60.00</span></li>
-                                    <li class="fw-normal">Combination x 1 <span>$120.00</span></li>
-                                    <li class="fw-normal">Subtotal <span>$240.00</span></li>
-                                    <li class="total-price">Total <span>$240.00</span></li>
-                                </ul>
-                                <div class="payment-check">
-                                    <div class="pc-item">
-                                        <label for="pc-check">
-                                            Cheque Payment
-                                            <input type="checkbox" id="pc-check">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>
-                                    <div class="pc-item">
-                                        <label for="pc-paypal">
-                                            Paypal
-                                            <input type="checkbox" id="pc-paypal">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="order-btn">
-                                    <button type="submit" class="site-btn place-btn">Place Order</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </section>
 <?
-
 if (strlen($request->get('ORDER_ID')) > 0)
 {
 	include(Main\Application::getDocumentRoot().$templateFolder.'/confirm.php');
@@ -400,205 +302,94 @@ else
 
 	$themeClass = !empty($arParams['TEMPLATE_THEME']) ? ' bx-'.$arParams['TEMPLATE_THEME'] : '';
 	$hideDelivery = empty($arResult['DELIVERY']);
-	?>
-    <section class="checkout-section spad">
-        <div class="container">    
-	<form action="<?=POST_FORM_ACTION_URI?>" method="POST" name="ORDER_FORM" class="bx-soa-wrapper mb-4<?=$themeClass?>" id="bx-soa-order-form" enctype="multipart/form-data">
-		<?
-		echo bitrix_sessid_post();
-
-		if (strlen($arResult['PREPAY_ADIT_FIELDS']) > 0)
-		{
-			echo $arResult['PREPAY_ADIT_FIELDS'];
-		}
-		?>
-		<input type="hidden" name="<?=$arParams['ACTION_VARIABLE']?>" value="saveOrderAjax">
+	?>  
+        
+        
+        <section class="checkout-section spad">
+        <div class="container">
+            <form action="<?=POST_FORM_ACTION_URI?>" method="POST" name="ORDER_FORM" class="place-order-form bx-soa-wrapper mb-4<?=$themeClass?> checkout-form" id="bx-soa-order-form" enctype="multipart/form-data">
+                <?
+                    echo bitrix_sessid_post();
+                ?>
+                <input type="hidden" name="<?=$arParams['ACTION_VARIABLE']?>" value="saveOrderAjax">
 		<input type="hidden" name="location_type" value="code">
 		<input type="hidden" name="BUYER_STORE" id="BUYER_STORE" value="<?=$arResult['BUYER_STORE']?>">
-		<div id="bx-soa-order" class="row" style="opacity: 0">
-			<!--	MAIN BLOCK	-->
-			<div class="col-lg-8 col-md-7 bx-soa">
-				<div id="bx-soa-main-notifications">
-					<div class="alert alert-danger" style="display:none"></div>
-					<div data-type="informer" style="display:none"></div>
-				</div>
-				<!--	AUTH BLOCK	-->
-				<div id="bx-soa-auth" class="bx-soa-section bx-soa-auth" style="display: none;">
-					<div class="bx-soa-section-title-container">
-						<div class="bx-soa-section-title" data-entity="section-title">
-							<span class="bx-soa-section-title-count"></span>
-							<?=$arParams['MESS_AUTH_BLOCK_NAME']?>
-						</div>
-					</div>
-					<div class="bx-soa-section-content"></div>
-				</div>
-
-				<!--	DUPLICATE MOBILE ORDER SAVE BLOCK	-->
-				<div id="bx-soa-total-mobile" style="margin-bottom: 6px;"></div>
-
-				<? if ($arParams['BASKET_POSITION'] === 'before'): ?>
-					<!--	BASKET ITEMS BLOCK	-->
-					<div id="bx-soa-basket" data-visited="false" class="bx-soa-section bx-active">
-						<div class="bx-soa-section-title-container d-flex justify-content-between align-items-center flex-nowrap">
-							<div class="bx-soa-section-title" data-entity="section-title">
-								<span class="bx-soa-section-title-count"></span>
-								<?=$arParams['MESS_BASKET_BLOCK_NAME']?>
-							</div>
-							<div><a href="javascript:void(0)" class="bx-soa-editstep"><?=$arParams['MESS_EDIT']?></a></div>
-						</div>
-						<div class="bx-soa-section-content"></div>
-					</div>
-				<? endif ?>
-
-				<!--	REGION BLOCK	-->
-				<div id="bx-soa-region" data-visited="false" class="bx-soa-section bx-active">
-					<div class="bx-soa-section-title-container d-flex justify-content-between align-items-center flex-nowrap">
-						<div class="bx-soa-section-title" data-entity="section-title">
-							<span class="bx-soa-section-title-count"></span><?=$arParams['MESS_REGION_BLOCK_NAME']?>
-						</div>
-						<div><a href="" class="bx-soa-editstep"><?=$arParams['MESS_EDIT']?></a></div>
-					</div>
-					<div class="bx-soa-section-content"></div>
-				</div>
-
-				<? if ($arParams['DELIVERY_TO_PAYSYSTEM'] === 'p2d'): ?>
-					<!--	PAY SYSTEMS BLOCK	-->
-					<div id="bx-soa-paysystem" data-visited="false" class="bx-soa-section bx-active">
-						<div class="bx-soa-section-title-container d-flex justify-content-between align-items-center flex-nowrap">
-							<div class="bx-soa-section-title" data-entity="section-title">
-								<span class="bx-soa-section-title-count"></span><?=$arParams['MESS_PAYMENT_BLOCK_NAME']?>
-							</div>
-							<div><a href="" class="bx-soa-editstep"><?=$arParams['MESS_EDIT']?></a></div>
-						</div>
-						<div class="bx-soa-section-content"></div>
-					</div>
-					<!--	DELIVERY BLOCK	-->
-					<div id="bx-soa-delivery" data-visited="false" class="bx-soa-section bx-active" <?=($hideDelivery ? 'style="display:none"' : '')?>>
-						<div class="bx-soa-section-title-container d-flex justify-content-between align-items-center flex-nowrap">
-							<div class="bx-soa-section-title" data-entity="section-title">
-								<span class="bx-soa-section-title-count"></span><?=$arParams['MESS_DELIVERY_BLOCK_NAME']?>
-							</div>
-							<div><a href="" class="bx-soa-editstep"><?=$arParams['MESS_EDIT']?></a></div>
-						</div>
-						<div class="bx-soa-section-content"></div>
-					</div>
-					<!--	PICKUP BLOCK	-->
-					<div id="bx-soa-pickup" data-visited="false" class="bx-soa-section" style="display:none">
-						<div class="bx-soa-section-title-container d-flex justify-content-between align-items-center flex-nowrap">
-							<div class="bx-soa-section-title" data-entity="section-title">
-								<span class="bx-soa-section-title-count"></span>
-							</div>
-							<div><a href="" class="bx-soa-editstep"><?=$arParams['MESS_EDIT']?></a></div>
-						</div>
-						<div class="bx-soa-section-content"></div>
-					</div>
-				<? else: ?>
-					<!--	DELIVERY BLOCK	-->
-					<div id="bx-soa-delivery" data-visited="false" class="bx-soa-section bx-active" <?=($hideDelivery ? 'style="display:none"' : '')?>>
-						<div class="bx-soa-section-title-container d-flex justify-content-between align-items-center flex-nowrap">
-							<div class="bx-soa-section-title" data-entity="section-title">
-								<span class="bx-soa-section-title-count"></span><?=$arParams['MESS_DELIVERY_BLOCK_NAME']?>
-							</div>
-							<div><a href="" class="bx-soa-editstep"><?=$arParams['MESS_EDIT']?></a></div>
-						</div>
-						<div class="bx-soa-section-content"></div>
-					</div>
-					<!--	PICKUP BLOCK	-->
-					<div id="bx-soa-pickup" data-visited="false" class="bx-soa-section" style="display:none">
-						<div class="bx-soa-section-title-container d-flex justify-content-between align-items-center flex-nowrap">
-							<div class="bx-soa-section-title" data-entity="section-title">
-								<span class="bx-soa-section-title-count"></span>
-							</div>
-							<div><a href="" class="bx-soa-editstep"><?=$arParams['MESS_EDIT']?></a></div>
-						</div>
-						<div class="bx-soa-section-content"></div>
-					</div>
-					<!--	PAY SYSTEMS BLOCK	-->
-					<div id="bx-soa-paysystem" data-visited="false" class="bx-soa-section bx-active">
-						<div class="bx-soa-section-title-container d-flex justify-content-between align-items-center flex-nowrap">
-							<div class="bx-soa-section-title" data-entity="section-title">
-								<span class="bx-soa-section-title-count"></span><?=$arParams['MESS_PAYMENT_BLOCK_NAME']?>
-							</div>
-							<div><a href="" class="bx-soa-editstep"><?=$arParams['MESS_EDIT']?></a></div>
-						</div>
-						<div class="bx-soa-section-content"></div>
-					</div>
-				<? endif ?>
-				<!--	BUYER PROPS BLOCK	-->
-				<div id="bx-soa-properties" data-visited="false" class="bx-soa-section bx-active">
-					<div class="bx-soa-section-title-container d-flex justify-content-between align-items-center flex-nowrap">
-						<div class="bx-soa-section-title" data-entity="section-title">
-							<span class="bx-soa-section-title-count"></span><?=$arParams['MESS_BUYER_BLOCK_NAME']?>
-						</div>
-						<div><a href="" class="bx-soa-editstep"><?=$arParams['MESS_EDIT']?></a></div>
-					</div>
-					<div class="bx-soa-section-content"></div>
-				</div>
-
-				<? if ($arParams['BASKET_POSITION'] === 'after'): ?>
-					<!--	BASKET ITEMS BLOCK	-->
-					<div id="bx-soa-basket" data-visited="false" class="bx-soa-section bx-active">
-						<div class="bx-soa-section-title-container d-flex justify-content-between align-items-center flex-nowrap">
-							<div class="bx-soa-section-title" data-entity="section-title">
-								<span class="bx-soa-section-title-count"></span><?=$arParams['MESS_BASKET_BLOCK_NAME']?>
-							</div>
-							<div><a href="javascript:void(0)" class="bx-soa-editstep"><?=$arParams['MESS_EDIT']?></a></div>
-						</div>
-						<div class="bx-soa-section-content"></div>
-					</div>
-				<? endif ?>
-
-				<!--	ORDER SAVE BLOCK	-->
-				<div id="bx-soa-orderSave">
-					<div class="checkbox">
-						<?
-						if ($arParams['USER_CONSENT'] === 'Y')
-						{
-							$APPLICATION->IncludeComponent(
-								'bitrix:main.userconsent.request',
-								'',
-								array(
-									'ID' => $arParams['USER_CONSENT_ID'],
-									'IS_CHECKED' => $arParams['USER_CONSENT_IS_CHECKED'],
-									'IS_LOADED' => $arParams['USER_CONSENT_IS_LOADED'],
-									'AUTO_SAVE' => 'N',
-									'SUBMIT_EVENT_NAME' => 'bx-soa-order-save',
-									'REPLACE' => array(
-										'button_caption' => isset($arParams['~MESS_ORDER']) ? $arParams['~MESS_ORDER'] : $arParams['MESS_ORDER'],
-										'fields' => $arResult['USER_CONSENT_PROPERTY_DATA']
-									)
-								)
-							);
-						}
-						?>
-					</div>
-					<a href="javascript:void(0)" style="margin: 10px 0" class="btn btn-primary btn-lg d-none d-sm-inline-block" data-save-button="true">
-						<?=$arParams['MESS_ORDER']?>
-					</a>
-				</div>
-
-				<div style="display: none;">
-					<div id='bx-soa-basket-hidden' class="bx-soa-section"></div>
-					<div id='bx-soa-region-hidden' class="bx-soa-section"></div>
-					<div id='bx-soa-paysystem-hidden' class="bx-soa-section"></div>
-					<div id='bx-soa-delivery-hidden' class="bx-soa-section"></div>
-					<div id='bx-soa-pickup-hidden' class="bx-soa-section"></div>
-					<div id="bx-soa-properties-hidden" class="bx-soa-section"></div>
-					<div id="bx-soa-auth-hidden" class="bx-soa-section">
-						<div class="bx-soa-section-content reg"></div>
-					</div>
-				</div>
-			</div>
-
-			<!--	SIDEBAR BLOCK	-->
-			<div id="bx-soa-total" class="col-lg-4 col-md-5 bx-soa-sidebar">
-				<div class="bx-soa-cart-total-ghost"></div>
-				<div class="bx-soa-cart-total"></div>
-			</div>
-		</div>
-	</form>
+                <input type="hidden" name="DELIVERY_ID" value="2">
+                <input type = "hidden" class = "delivery-price" value ="<?=$arResult["DELIVERY"][2]["PRICE"]?>">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="checkout-content">
+                            <a href="/login/" class="content-btn">Click Here To Login</a>
+                        </div>
+                        <h4>Biiling Details</h4>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label for="fir">Name<span>*</span></label>
+                                <input type="text" class ="name-order" name="ORDER_PROP_1" value = "<?=$arResult["JS_DATA"]["ORDER_PROP"]["properties"][0]["VALUE"][0]?>">
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="email">Email Address<span>*</span></label>
+                                <input type="text" class ="email-order" name="ORDER_PROP_2" id="email" value = "<?=$arResult["JS_DATA"]["ORDER_PROP"]["properties"][1]["VALUE"][0]?>">
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="phone">Phone<span>*</span></label>
+                                <input type="text" class ="phone-order" name="ORDER_PROP_3" id="phone" value = "<?=$arResult["JS_DATA"]["ORDER_PROP"]["properties"][2]["VALUE"][0]?>">
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="fir">Address<span>*</span></label>
+                                <input type="text" class ="address-order"  name="ORDER_PROP_7" value = "<?=$arResult["JS_DATA"]["ORDER_PROP"]["properties"][6]["VALUE"][0]?>">
+                            </div>
+                            <?if(!$USER->IsAuthorized()):?>
+                            <div class="col-lg-12">
+                                <div class="create-item">
+                                    <label for="acc-create">
+                                        Create an account?
+                                        <input type="checkbox" id="acc-create">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <?endif;?>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="checkout-content">
+                            <input id = "discount-order" type="text" placeholder="Enter Your Coupon Code">
+                        </div>
+                        <div class="place-order">
+                            <h4>Your Order</h4>
+                            <div class="order-total">
+                                <ul class="order-table">
+                                    <li>Product <span>Total</span></li>
+                                    <?foreach($arResult["BASKET_ITEMS"] as $item):?>
+                                    <li class="fw-normal" data-id = "<?=$item["ID"]?>"><?=$item["NAME"]?> x <?=$item["QUANTITY"]?> <span><?=$item["SUM"]?></span></li>
+                                    <?endforeach;?>
+                                     <li class="fw-normal">Subtotal <span class = "subtotal-order"><?=$arResult["ORDER_PRICE_FORMATED"]?></span></li>
+                                     <li class="total-price">Total <span class = "total-order"><?=$arResult["ORDER_TOTAL_PRICE_FORMATED"]?></span></li>
+                                </ul>
+                                <div class="payment-check">
+                                    <?foreach($arResult["JS_DATA"]["PAY_SYSTEM"] as $paySystem):?>
+                                        <div class="pc-item">
+                                            <label for="pc-check-<?=$paySystem["ID"]?>">
+                                                <?=$paySystem["NAME"]?>
+                                                <input class = "pay-system-order" name = "PAY_SYSTEM_ID" type="checkbox" id="pc-check-<?=$paySystem["ID"]?>" value = "<?=$paySystem["ID"]?>">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    <?endforeach;?>
+                                </div>
+                                <div class="order-btn">
+                                    <button type="button" class="place-order-btn site-btn place-btn">Place Order</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </section>
+        
+        
 	<div id="bx-soa-saved-files" style="display:none"></div>
 	<div id="bx-soa-soc-auth-services" style="display:none">
 		<?
